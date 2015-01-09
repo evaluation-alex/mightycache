@@ -1,0 +1,15 @@
+language: node_js
+sudo: false
+node_js:
+- 0.10.31
+- '0.10'
+- '0.11'
+env:
+  global:
+  - secure: Ua3Js0aFlkkdJvODwYqpHR1aKZJt7/WI/v3JBQyZW0SlhS2645WiTeZ1HuVSznr8Fu2R4rqI1YCt0/GKQ9q3ZzIJqS8B7Y9Z7BsYOx/mZ8ztk1szYH489T0z0IkFPdacJ832rntZM+1AAxrnc2pAX4qeLF5EkQ+4hofd26E2PIk=
+  - secure: UvLTfuT2JOhv5MpjODNE23GZLb6npMck8eKphq0PSr9d71ehC42nadIL5FCbakKvQKlHJ/hxKykraQqAuBypFWc1rmPacv22YC5yKrel7zUMZIipGz/+ABpGu6utvX7wr5cMyH8vlxyqWJdE1uqswpGEWdTO/lBYECaZ7PTlwno=
+  - secure: SNsdjtWd5mNDNkbLs4kLl+XNtgbTLrXpz54n0Cr5Qfvu9XOirP1Nqd1OJi+o6D0IpsJSHru4V4l8qx+zNKrzCWb2EqceXQHn57k/QfYozRxZS7scOgz8KIT2XDZvO1FayMm4LtfHv/YpC5NGcGVPSvj+n5e/TFmYkh9mt5BqKJg=
+script: npm test
+after_script: npm run-script inspect && npm install coveralls && cat ./coverage/lcov.info | coveralls
+services:
+- redis-server
