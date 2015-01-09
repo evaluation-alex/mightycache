@@ -1,7 +1,13 @@
 # Mighty Cache
+[![npm](https://img.shields.io/npm/v/mightycache.svg)]()
+[![npm](https://img.shields.io/npm/dm/mightycache.svg)]()
 [![Build Status](https://travis-ci.org/RiptideCloud/mightycache.svg?branch=master)](https://travis-ci.org/RiptideCloud/mightycache)
 [![Coverage Status](https://img.shields.io/coveralls/RiptideCloud/mightycache.svg)](https://coveralls.io/r/RiptideCloud/mightycache)
+[![Codacy](https://img.shields.io/codacy/e15e6fda7ab3418e8d5573ad32f97a8b.svg)](https://www.codacy.com/public/davidtpate/mightycache)
 [![Code Climate](https://codeclimate.com/github/RiptideCloud/mightycache/badges/gpa.svg)](https://codeclimate.com/github/RiptideCloud/mightycache)
+[![David](https://img.shields.io/david/RiptideCloud/mightycache.svg)]()
+[![David](https://img.shields.io/david/dev/RiptideCloud/mightycache.svg)]()
+[![David](https://img.shields.io/david/peer/RiptideCloud/mightycache.svg)]()
 
 Module providing multiple implementations of a cache backed by a data store.
 
