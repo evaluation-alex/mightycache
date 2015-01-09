@@ -10,9 +10,11 @@
         });
 
         beforeEach(function(done) {
+            /* jshint camelcase: false */
             redisClient.send_command('flushall', [], function(err) {
                 done(err);
             });
+            /* jshint camelcase: true */
         });
 
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a host', function () {
