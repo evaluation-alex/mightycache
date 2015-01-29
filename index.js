@@ -1,6 +1,7 @@
-(function(module, util, handler, cacheInterface) {
+(function(module, util, handler, cacheInterface, setInterface) {
     'use strict';
     module.exports.cacheInterface = cacheInterface;
+    module.exports.setInterface = setInterface;
 
     module.exports.handler = function Handler (cacheImpl, options) {
         if (!cacheImpl) {
@@ -25,15 +26,24 @@
 
         impl = impl.toLowerCase();
 
-        var modulePath = './lib/impl/' + impl;
+        var cacheModule = './lib/cacheImpl/' + impl;
+        var setModule = './lib/setImpl/' + impl;
+        var setClass;
+
+        try{
+            setClass = require(setModule);
+        }
+        catch (err){
+            console.warn("Implementation [%s] does not provide a set class. Set Functionality is not required but is recommended");
+        }
 
         try {
-            return require(modulePath)(options);
+            return require(cacheModule)(options, setClass);
         } catch (err) {
-            if (err && err.code === 'MODULE_NOT_FOUND' && err.message === 'Cannot find module \'' + modulePath + '\'') {
+            if (err && err.code === 'MODULE_NOT_FOUND' && err.message === 'Cannot find module \'' + cacheModule + '\'') {
                 throw new Error(util.format('Implementation [%s] does not exist', impl));
             }
             throw err;
         }
     };
-}(module, require('util'), require('./lib/handler'), require('./lib/cacheInterface')));
+}(module, require('util'), require('./lib/handler'), require('./lib/cacheInterface'), require('./lib/setInterface')));
