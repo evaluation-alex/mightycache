@@ -377,5 +377,37 @@
                 }
             });
         });
+        it('Should be able to save, restore, and delete a cached value with invalid characters', function (done) {
+            // See http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys for where these characters came from
+            var cache = lib.cache('s3',
+                {
+                    bucket: bucketName,
+                    accessKeyId: s3Credentials.accessKeyId,
+                    secretAccessKey: s3Credentials.secretAccessKey
+                }
+            );
+            var dataToCache = JSON.stringify({ name: 'Zul' }),
+                key = '*$@=;:+    ,?\\{^}%`]\"\'>[~<#|';
+            cache.save(dataToCache, key).then(function () {
+                return cache.restore(key).then(function (data) {
+                    data.body.should.be.exactly(dataToCache);
+                    return cache.remove(key).then(function() {
+                        return cache.restore(key).then(function () {
+                            done(new Error('Should Have Returned Error'));
+                        }, function (reason) {
+                            try {
+                                reason.code.should.be.exactly(2);
+                                reason.name.should.be.exactly('CacheNotFound');
+                                done();
+                            } catch (err) {
+                                done(err);
+                            }
+                        });
+                    });
+                });
+            }, function (reason) {
+                done(reason);
+            });
+        });
     });
 }(require('should'), require('util'), require('../index'), require('../lib/errors'), require('s3fs')));
