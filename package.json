@@ -1,6 +1,6 @@
 {
   "name": "mightycache",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Module providing multiple implementations of a cache backed by a data store.",
   "keywords": [
     "cache",
@@ -42,10 +42,10 @@
   ],
   "main": "index.js",
   "dependencies": {
-    "jssha": "1.5.0",
+    "jssha": "^1.x",
     "q": "^1.x",
-    "redis": "^0.12.x",
-    "s3fs": "0.0.1"
+    "redis": "^0.x",
+    "s3fs": "^1.x"
   },
   "devDependencies": {
     "bower": "^1.x",
