@@ -29,6 +29,7 @@
         var cacheModule = './lib/cacheImpl/' + impl;
         var setModule = './lib/setImpl/' + impl;
         var setClass;
+        var cacheClass;
 
         try{
             setClass = require(setModule);
@@ -38,12 +39,17 @@
         }
 
         try {
-            return require(cacheModule)(options, setClass);
+            cacheClass = require(cacheModule);
+            if(setClass){
+                cacheClass.Set = setClass;
+            }
         } catch (err) {
             if (err && err.code === 'MODULE_NOT_FOUND' && err.message === 'Cannot find module \'' + cacheModule + '\'') {
                 throw new Error(util.format('Implementation [%s] does not exist', impl));
             }
             throw err;
         }
+
+        return cacheClass(options);
     };
 }(module, require('util'), require('./lib/handler'), require('./lib/cacheInterface'), require('./lib/setInterface')));
