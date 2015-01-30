@@ -62,7 +62,7 @@
     "reporter-file": "^0.x"
   },
   "scripts": {
-    "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/",
-    "inspect": "jshint --show-non-errors --reporter=jslint . > reports/jshint.xml | echo 'Oh hai' && jscs --reporter checkstyle . > reports/checkstyle.xml | echo 'Herro' && jsinspect . > reports/jsinspect.json | echo 'Boo Urns!' && buddy --reporter json ./routers ./test ./vhosts app.js > reports/buddy.json | echo 'Woo' && nsp audit-package >& reports/security.txt | echo 'Bond, James Bond.'"
+    "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/ && jshint --show-non-errors . && jscs . && buddy ./lib ./test index.js && nsp audit-package",
+    "inspect": "jshint --show-non-errors --reporter=jslint . > reports/jshint.xml | echo 'Oh hai' && jscs --reporter checkstyle . > reports/checkstyle.xml | echo 'Herro' && jsinspect . > reports/jsinspect.json | echo 'Boo Urns!' && buddy --reporter json ./lib ./test index.js > reports/buddy.json | echo 'Woo' && nsp audit-package >& reports/security.txt | echo 'Bond, James Bond.'"
   }
 }

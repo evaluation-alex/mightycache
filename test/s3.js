@@ -1,9 +1,9 @@
 (function (should, util, lib, errors, S3FS) {
-    "use strict";
+    'use strict';
     var s3Credentials,
         bucketName,
         s3fsImpl;
-    
+
     describe('S3 Cache Implementation', function () {
         beforeEach(function (done) {
             s3Credentials = {
@@ -14,7 +14,7 @@
             bucketName = 's3fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
             s3fsImpl = new S3FS(s3Credentials, bucketName);
 
-            s3fsImpl.create().then(function() {
+            s3fsImpl.create().then(function () {
                 done();
             }, done);
         });
@@ -104,7 +104,7 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'save-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'save-test').then(function (data) {
                 try {
                     data.etag.should.be.exactly('5bf48f033197ecd3635f459c145b0815');
                     done();
@@ -123,7 +123,7 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'save-test-no-exist', '5bf48f033197ecd3635f459c145b0815').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'save-test-no-exist', '5bf48f033197ecd3635f459c145b0815').then(function (data) {
                 try {
                     data.etag.should.be.exactly('5bf48f033197ecd3635f459c145b0815');
                     done();
@@ -142,8 +142,8 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'update-test').then(function (data) {
-                cache.save(JSON.stringify({ name: 'Odoyle Rules!' }), 'update-test', '5bf48f033197ecd3635f459c145b0815').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'update-test').then(function () {
+                cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', '5bf48f033197ecd3635f459c145b0815').then(function (data) {
                     try {
                         data.etag.should.be.exactly('d9b4bc4b39054b07b6f2512abcdad03f');
                         done();
@@ -165,8 +165,8 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'update-test').then(function (data) {
-                cache.save(JSON.stringify({ name: 'Odoyle Rules!' }), 'update-test', '5bf48f033197ecd3635f459c145b08151').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'update-test').then(function () {
+                cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', '5bf48f033197ecd3635f459c145b08151').then(function () {
                     done(new Error('This should have failed'));
                 }, function (reason) {
                     try {
@@ -175,7 +175,7 @@
                         reason.message.should.be.exactly(util.format(errCode.message, '5bf48f033197ecd3635f459c145b08151', '5bf48f033197ecd3635f459c145b0815'));
                         reason.name.should.be.exactly(errCode.name);
                         done();
-                    } catch(err) {
+                    } catch (err) {
                         done(err);
                     }
                 });
@@ -191,7 +191,7 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'does-not-exist').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'does-not-exist').then(function (data) {
                 try {
                     data.etag.should.be.exactly('5bf48f033197ecd3635f459c145b0815');
                     done();
@@ -210,11 +210,11 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'restore-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
                 cache.restore('restore-test').then(function (data) {
                     try {
                         data.etag.should.be.exactly('5bf48f033197ecd3635f459c145b0815');
-                        data.body.should.be.exactly(JSON.stringify({ name: 'Zul' }));
+                        data.body.should.be.exactly(JSON.stringify({name: 'Zul'}));
                         done();
                     } catch (err) {
                         done(err);
@@ -234,7 +234,7 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'restore-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
                 cache.restore('restore-test', '5bf48f033197ecd3635f459c145b0815').then(function (data) {
                     try {
                         data.etag.should.be.exactly('5bf48f033197ecd3635f459c145b0815');
@@ -258,11 +258,11 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'restore-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
                 cache.restore('restore-test', 'test-hash').then(function (data) {
                     try {
                         data.etag.should.be.exactly('5bf48f033197ecd3635f459c145b0815');
-                        data.body.should.be.exactly(JSON.stringify({ name: 'Zul' }));
+                        data.body.should.be.exactly(JSON.stringify({name: 'Zul'}));
                         done();
                     } catch (err) {
                         done(err);
@@ -282,7 +282,7 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.restore('doesnt-exist').then(function (data) {
+            cache.restore('doesnt-exist').then(function () {
                 done(new Error('Should Have Returned Error'));
             }, function (reason) {
                 try {
@@ -303,8 +303,8 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'delete-test').then(function (data) {
-                cache.remove('delete-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
+                cache.remove('delete-test').then(function () {
                     done();
                 }, function (reason) {
                     done(reason);
@@ -321,8 +321,8 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'delete-test').then(function (data) {
-                cache.remove('delete-test', '5bf48f033197ecd3635f459c145b0815').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
+                cache.remove('delete-test', '5bf48f033197ecd3635f459c145b0815').then(function () {
                     done();
                 }, function (reason) {
                     done(reason);
@@ -339,8 +339,8 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'delete-test').then(function (data) {
-                cache.remove('delete-test', 'incorrect-hash').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
+                cache.remove('delete-test', 'incorrect-hash').then(function () {
                     done(new Error('Should Have Returned Error'));
                 }, function (reason) {
                     try {
@@ -364,7 +364,7 @@
                     secretAccessKey: s3Credentials.secretAccessKey
                 }
             );
-            cache.remove('delete-test-no-exist').then(function (data) {
+            cache.remove('delete-test-no-exist').then(function () {
                 done(new Error('Should Have Returned Error'));
             }, function (reason) {
                 try {
@@ -380,18 +380,18 @@
         it('Should be able to save, restore, and delete a cached value with invalid characters', function (done) {
             // See http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys for where these characters came from
             var cache = lib.cache('s3',
-                {
-                    bucket: bucketName,
-                    accessKeyId: s3Credentials.accessKeyId,
-                    secretAccessKey: s3Credentials.secretAccessKey
-                }
-            );
-            var dataToCache = JSON.stringify({ name: 'Zul' }),
-                key = '*$@=;:+    ,?\\{^}%`]\"\'>[~<#|';
+                    {
+                        bucket: bucketName,
+                        accessKeyId: s3Credentials.accessKeyId,
+                        secretAccessKey: s3Credentials.secretAccessKey
+                    }
+                ),
+                dataToCache = JSON.stringify({name: 'Zul'}),
+                key = '*$@=;:+    ,?\\{^}%`]\'\'>[~<#|';
             cache.save(dataToCache, key).then(function () {
                 return cache.restore(key).then(function (data) {
                     data.body.should.be.exactly(dataToCache);
-                    return cache.remove(key).then(function() {
+                    return cache.remove(key).then(function () {
                         return cache.restore(key).then(function () {
                             done(new Error('Should Have Returned Error'));
                         }, function (reason) {

@@ -1,8 +1,8 @@
-(function(module, util, handler, cacheInterface) {
+(function (module, util, handler, cacheInterface) {
     'use strict';
     module.exports.cacheInterface = cacheInterface;
 
-    module.exports.handler = function Handler (cacheImpl, options) {
+    module.exports.handler = function Handler(cacheImpl, options) {
         if (!cacheImpl) {
             throw new Error('A Cache Implementation is required');
         }

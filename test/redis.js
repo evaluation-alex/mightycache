@@ -1,17 +1,17 @@
 (function (should, util, lib, errors, redis) {
-    "use strict";
+    'use strict';
     var redisClient;
 
     describe('Redis Cache Implementation', function () {
-        before(function(done) {
-           redisClient = redis.createClient();
+        before(function (done) {
+            redisClient = redis.createClient();
             redisClient.on('connect', done);
             redisClient.on('error', done);
         });
 
-        beforeEach(function(done) {
+        beforeEach(function (done) {
             /* jshint camelcase: false */
-            redisClient.send_command('flushall', [], function(err) {
+            redisClient.send_command('flushall', [], function (err) {
                 done(err);
             });
             /* jshint camelcase: true */
@@ -99,7 +99,7 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'save-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'save-test').then(function (data) {
                 try {
                     data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
                     done();
@@ -118,7 +118,7 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'save-test-no-exist', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'save-test-no-exist', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
                 try {
                     data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
                     done();
@@ -137,8 +137,8 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'update-test').then(function (data) {
-                cache.save(JSON.stringify({ name: 'Odoyle Rules!' }), 'update-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'update-test').then(function () {
+                cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
                     try {
                         data.etag.should.be.exactly('8d8dbf068de76b07ecd87c58f228c8dfdce138dd');
                         done();
@@ -160,8 +160,8 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'update-test').then(function (data) {
-                cache.save(JSON.stringify({ name: 'Odoyle Rules!' }), 'update-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec01').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'update-test').then(function () {
+                cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec01').then(function () {
                     done(new Error('This should have failed'));
                 }, function (reason) {
                     try {
@@ -170,7 +170,7 @@
                         reason.message.should.be.exactly(util.format(errCode.message, '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec01', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'));
                         reason.name.should.be.exactly(errCode.name);
                         done();
-                    } catch(err) {
+                    } catch (err) {
                         done(err);
                     }
                 });
@@ -186,7 +186,7 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'does-not-exist').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'does-not-exist').then(function (data) {
                 try {
                     data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
                     done();
@@ -205,11 +205,11 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'restore-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
                 cache.restore('restore-test').then(function (data) {
                     try {
                         data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        data.body.should.be.exactly(JSON.stringify({ name: 'Zul' }));
+                        data.body.should.be.exactly(JSON.stringify({name: 'Zul'}));
                         done();
                     } catch (err) {
                         done(err);
@@ -229,7 +229,7 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'restore-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
                 cache.restore('restore-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
                     try {
                         data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
@@ -253,11 +253,11 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'restore-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
                 cache.restore('restore-test', 'test-hash').then(function (data) {
                     try {
                         data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        data.body.should.be.exactly(JSON.stringify({ name: 'Zul' }));
+                        data.body.should.be.exactly(JSON.stringify({name: 'Zul'}));
                         done();
                     } catch (err) {
                         done(err);
@@ -277,7 +277,7 @@
                     options: {}
                 }
             );
-            cache.restore('doesnt-exist').then(function (data) {
+            cache.restore('doesnt-exist').then(function () {
                 done(new Error('Should Have Returned Error'));
             }, function (reason) {
                 try {
@@ -298,8 +298,8 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'delete-test').then(function (data) {
-                cache.remove('delete-test').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
+                cache.remove('delete-test').then(function () {
                     done();
                 }, function (reason) {
                     done(reason);
@@ -316,8 +316,8 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'delete-test').then(function (data) {
-                cache.remove('delete-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
+                cache.remove('delete-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function () {
                     done();
                 }, function (reason) {
                     done(reason);
@@ -334,8 +334,8 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({ name: 'Zul' }), 'delete-test').then(function (data) {
-                cache.remove('delete-test', 'incorrect-hash').then(function (data) {
+            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
+                cache.remove('delete-test', 'incorrect-hash').then(function () {
                     done(new Error('Should Have Returned Error'));
                 }, function (reason) {
                     try {
@@ -359,7 +359,7 @@
                     options: {}
                 }
             );
-            cache.remove('delete-test-no-exist').then(function (data) {
+            cache.remove('delete-test-no-exist').then(function () {
                 done(new Error('Should Have Returned Error'));
             }, function (reason) {
                 try {
