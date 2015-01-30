@@ -1,8 +1,11 @@
-(function (should, util, lib, errors, redis) {
+(function (expect, util, lib, errors, redis) {
     'use strict';
-    var redisClient;
-
     describe('Redis Cache Implementation', function () {
+        var dataToSave = {
+                name: 'Zul'
+            },
+            redisClient;
+
         before(function (done) {
             redisClient = redis.createClient();
             redisClient.on('connect', done);
@@ -11,57 +14,55 @@
 
         beforeEach(function (done) {
             /* jshint camelcase: false */
-            redisClient.send_command('flushall', [], function (err) {
-                done(err);
-            });
+            redisClient.send_command('flushall', [], done);
             /* jshint camelcase: true */
         });
 
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a host', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis', {});
-            }).should.throw('Missing Required Argument [host]');
+            }).to.throw(Error, 'Missing Required Argument [host]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation with an invalid host', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: {}
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [string] for [host] but got [object]');
+            }).to.throw(Error, 'Invalid Argument Type Expected [string] for [host] but got [object]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a port', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test'
                     }
                 );
-            }).should.throw('Missing Required Argument [port]');
+            }).to.throw(Error, 'Missing Required Argument [port]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation with an invalid port', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test',
                         port: {}
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [number] for [port] but got [object]');
+            }).to.throw(Error, 'Invalid Argument Type Expected [number] for [port] but got [object]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation without options', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test',
                         port: 12345
                     }
                 );
-            }).should.throw('Missing Required Argument [options]');
+            }).to.throw(Error, 'Missing Required Argument [options]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation with invalid options', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test',
@@ -69,7 +70,7 @@
                         options: 'asdf'
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [object] for [options] but got [string]');
+            }).to.throw(Error, 'Invalid Argument Type Expected [object] for [options] but got [string]');
         });
         it('Should instantiate the Redis cache implementation', function () {
             var cache = lib.cache('redis',
@@ -79,7 +80,7 @@
                     options: {}
                 }
             );
-            cache.constructor.name.should.be.exactly('RedisCache');
+            expect(cache).to.be.ok();
         });
         it('Redis cache implementation should inherit from the EventEmitter', function () {
             var cache = lib.cache('redis',
@@ -89,9 +90,9 @@
                     options: {}
                 }
             );
-            cache.should.be.instanceOf(require('events').EventEmitter);
+            expect(cache).to.be.an.instanceOf(require('events').EventEmitter);
         });
-        it('Should be able to save a cached value', function (done) {
+        it('Should be able to save a cached value', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -99,18 +100,31 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'save-test').then(function (data) {
-                try {
-                    data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                    done();
-                } catch (err) {
-                    done(err);
+            return expect(cache.save(JSON.stringify(dataToSave), 'save-test')).to.eventually.deep.equal({etag: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'});
+        });
+        it('Should be able to save a cached value with a hash that doesn\'t exist', function () {
+            var cache = lib.cache('redis',
+                {
+                    host: 'localhost',
+                    port: 6379,
+                    options: {}
                 }
-            }, function (reason) {
-                done(reason);
+            );
+            return expect(cache.save(JSON.stringify(dataToSave), 'save-test-no-exist', '5bf48f033197ecd3635f459c145b0815')).to.eventually.deep.equal({etag: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'});
+        });
+        it('Should be able to update a cached value', function () {
+            var cache = lib.cache('redis',
+                {
+                    host: 'localhost',
+                    port: 6379,
+                    options: {}
+                }
+            );
+            return cache.save(JSON.stringify(dataToSave), 'update-test').then(function (data) {
+                return expect(cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', data.etag)).to.eventually.deep.equal({etag: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'});
             });
         });
-        it('Should be able to save a cached value with a hash that doesn\'t exist', function (done) {
+        it('Should be able to update a cached value that no longer exists', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -118,18 +132,22 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'save-test-no-exist', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
-                try {
-                    data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                    done();
-                } catch (err) {
-                    done(err);
+            return expect(cache.save(JSON.stringify(dataToSave), 'does-not-exist')).to.eventually.deep.equal({etag: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'});
+        });
+        it('Shouldn\'t be able to update a cached value when you have the wrong hash', function () {
+            var cache = lib.cache('redis',
+                {
+                    host: 'localhost',
+                    port: 6379,
+                    options: {}
                 }
-            }, function (reason) {
-                done(reason);
+            );
+            return cache.save(JSON.stringify(dataToSave), 'update-test').then(function (data) {
+                return expect(cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', data.etag + '1')).to.eventually.be
+                    .rejectedWith(errors.CacheError, util.format(errors.errorCodes.HASH_MISMATCH.message, data.etag + '1', data.etag));
             });
         });
-        it('Should be able to update a cached value', function (done) {
+        it('Should be able to restore a cached value', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -137,22 +155,14 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'update-test').then(function () {
-                cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
-                    try {
-                        data.etag.should.be.exactly('8d8dbf068de76b07ecd87c58f228c8dfdce138dd');
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (reason) {
-                    done(reason);
+            return cache.save(JSON.stringify(dataToSave), 'restore-test').then(function (data) {
+                return expect(cache.restore('restore-test')).to.eventually.deep.equal({
+                    body: JSON.stringify(dataToSave),
+                    etag: data.etag
                 });
-            }, function (reason) {
-                done(reason);
             });
         });
-        it('Shouldn\'t be able to update a cached value when you have the wrong hash', function (done) {
+        it('Shouldn\'t restore the same version', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -160,25 +170,26 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'update-test').then(function () {
-                cache.save(JSON.stringify({name: 'Odoyle Rules!'}), 'update-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec01').then(function () {
-                    done(new Error('This should have failed'));
-                }, function (reason) {
-                    try {
-                        var errCode = errors.errorCodes.HASH_MISMATCH;
-                        reason.code.should.be.exactly(errCode.code);
-                        reason.message.should.be.exactly(util.format(errCode.message, '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec01', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'));
-                        reason.name.should.be.exactly(errCode.name);
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
+            return cache.save(JSON.stringify(dataToSave), 'restore-test').then(function (data) {
+                return expect(cache.restore('restore-test', data.etag)).to.eventually.deep.equal(data);
+            });
+        });
+        it('Should restore if a different version exists', function () {
+            var cache = lib.cache('redis',
+                {
+                    host: 'localhost',
+                    port: 6379,
+                    options: {}
+                }
+            );
+            return cache.save(JSON.stringify(dataToSave), 'restore-test').then(function (data) {
+                return expect(cache.restore('restore-test', 'test-hash')).to.eventually.deep.equal({
+                    body: JSON.stringify(dataToSave),
+                    etag: data.etag
                 });
-            }, function (reason) {
-                done(reason);
             });
         });
-        it('Should be able to update a cached value that no longer exists', function (done) {
+        it('Shouldn\'t restore if a value doesn\'t exist', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -186,18 +197,9 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'does-not-exist').then(function (data) {
-                try {
-                    data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            }, function (reason) {
-                done(reason);
-            });
+            return expect(cache.restore('doesnt-exist')).to.eventually.be.rejectedWith(errors.CacheError, util.format(errors.errorCodes.CACHE_NOT_FOUND.message, 'doesnt-exist'));
         });
-        it('Should be able to restore a cached value', function (done) {
+        it('Should be able to remove a cached value', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -205,23 +207,11 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
-                cache.restore('restore-test').then(function (data) {
-                    try {
-                        data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        data.body.should.be.exactly(JSON.stringify({name: 'Zul'}));
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (reason) {
-                    done(reason);
-                });
-            }, function (reason) {
-                done(reason);
+            return cache.save(JSON.stringify(dataToSave), 'delete-test').then(function () {
+                return expect(cache.remove('delete-test')).to.eventually.be.fulfilled;
             });
         });
-        it('Shouldn\'t restore the same version', function (done) {
+        it('Should be able to remove a cached value with a hash', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -229,23 +219,11 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
-                cache.restore('restore-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function (data) {
-                    try {
-                        data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        should.not.exist(data.body);
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (reason) {
-                    done(reason);
-                });
-            }, function (reason) {
-                done(reason);
+            return cache.save(JSON.stringify(dataToSave), 'delete-test').then(function (data) {
+                return expect(cache.remove('delete-test', data.etag)).to.eventually.be.fulfilled;
             });
         });
-        it('Should restore if a different version exists', function (done) {
+        it('Shouldn\'t be able to remove a cached value with an incorrect hash', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -253,23 +231,11 @@
                     options: {}
                 }
             );
-            cache.save(JSON.stringify({name: 'Zul'}), 'restore-test').then(function () {
-                cache.restore('restore-test', 'test-hash').then(function (data) {
-                    try {
-                        data.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        data.body.should.be.exactly(JSON.stringify({name: 'Zul'}));
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (reason) {
-                    done(reason);
-                });
-            }, function (reason) {
-                done(reason);
+            return cache.save(JSON.stringify(dataToSave), 'delete-test').then(function (data) {
+                return expect(cache.remove('delete-test', 'incorrect-hash')).to.eventually.be.rejectedWith(errors.CacheError, util.format(errors.errorCodes.HASH_MISMATCH.message, 'incorrect-hash', data.etag));
             });
         });
-        it('Shouldn\'t restore if a value doesn\'t exist', function (done) {
+        it('Shouldn\'t be able to remove a cached value that doesn\'t exist', function () {
             var cache = lib.cache('redis',
                 {
                     host: 'localhost',
@@ -277,100 +243,7 @@
                     options: {}
                 }
             );
-            cache.restore('doesnt-exist').then(function () {
-                done(new Error('Should Have Returned Error'));
-            }, function (reason) {
-                try {
-                    reason.code.should.be.exactly(2);
-                    reason.message.should.be.exactly('Cache for [doesnt-exist] not found');
-                    reason.name.should.be.exactly('CacheNotFound');
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            });
-        });
-        it('Should be able to remove a cached value', function (done) {
-            var cache = lib.cache('redis',
-                {
-                    host: 'localhost',
-                    port: 6379,
-                    options: {}
-                }
-            );
-            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
-                cache.remove('delete-test').then(function () {
-                    done();
-                }, function (reason) {
-                    done(reason);
-                });
-            }, function (reason) {
-                done(reason);
-            });
-        });
-        it('Should be able to remove a cached value with a hash', function (done) {
-            var cache = lib.cache('redis',
-                {
-                    host: 'localhost',
-                    port: 6379,
-                    options: {}
-                }
-            );
-            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
-                cache.remove('delete-test', '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0').then(function () {
-                    done();
-                }, function (reason) {
-                    done(reason);
-                });
-            }, function (reason) {
-                done(reason);
-            });
-        });
-        it('Shouldn\'t be able to remove a cached value with an incorrect hash', function (done) {
-            var cache = lib.cache('redis',
-                {
-                    host: 'localhost',
-                    port: 6379,
-                    options: {}
-                }
-            );
-            cache.save(JSON.stringify({name: 'Zul'}), 'delete-test').then(function () {
-                cache.remove('delete-test', 'incorrect-hash').then(function () {
-                    done(new Error('Should Have Returned Error'));
-                }, function (reason) {
-                    try {
-                        reason.code.should.be.exactly(0);
-                        reason.message.should.be.exactly('Provided Hash [incorrect-hash] doesn\'t match current hash [4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0]');
-                        reason.name.should.be.exactly('HashMismatch');
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                });
-            }, function (reason) {
-                done(reason);
-            });
-        });
-        it('Shouldn\'t be able to remove a cached value that doesn\'t exist', function (done) {
-            var cache = lib.cache('redis',
-                {
-                    host: 'localhost',
-                    port: 6379,
-                    options: {}
-                }
-            );
-            cache.remove('delete-test-no-exist').then(function () {
-                done(new Error('Should Have Returned Error'));
-            }, function (reason) {
-                try {
-                    reason.code.should.be.exactly(2);
-                    reason.message.should.be.exactly('Cache for [delete-test-no-exist] not found');
-                    reason.name.should.be.exactly('CacheNotFound');
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            });
+            return expect(cache.remove('delete-test-no-exist')).to.eventually.be.rejectedWith(errors.CacheError, util.format(errors.errorCodes.CACHE_NOT_FOUND.message, 'delete-test-no-exist'));
         });
     });
-}(require('should'), require('util'), require('../index'), require('../lib/errors'), require('redis')));
+}(require('./helper').getExpect(), require('util'), require('../index'), require('../lib/errors'), require('redis')));

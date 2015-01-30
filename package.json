@@ -48,17 +48,17 @@
     "s3fs": "^1.x"
   },
   "devDependencies": {
-    "bower": "^1.x",
-    "istanbul": "^0.x",
-    "mocha": "^1.x",
-    "should": "^4.x",
-    "supertest": "^0.x",
-    "xunit-file": "^0.x",
-    "jshint": "^2.x",
-    "jscs": "^1.x",
-    "jsinspect": "^0.x",
     "buddy.js": "^0.x",
+    "chai": "<1.10.0",
+    "chai-as-promised": "^4.1.1",
+    "dirty-chai": "^1.0.0",
+    "istanbul": "^0.x",
+    "jscs": "^1.x",
+    "jshint": "^2.x",
+    "jsinspect": "^0.x",
+    "mocha": "^1.x",
     "nsp": "^0.x",
+    "should": "^4.x",
     "reporter-file": "^0.x"
   },
   "scripts": {

@@ -1,34 +1,34 @@
-(function (should, lib, CacheInterface) {
+(function (expect, lib, CacheInterface) {
     'use strict';
     describe('Handler Implementation', function () {
         it('Shouldn\'t be able to instantiate the a handler without a handler', function () {
-            (function () {
+            expect(function () {
                 lib.handler();
-            }).should.throw('A Cache Implementation is required');
+            }).to.throw(Error, 'A Cache Implementation is required');
         });
         it('Shouldn\'t be able to instantiate a handler without options', function () {
-            (function () {
+            expect(function () {
                 lib.handler({});
-            }).should.throw('Options is required and must be an object');
+            }).to.throw(Error, 'Options is required and must be an object');
         });
         it('Shouldn\'t be able to instantiate a handler with an invalid handler', function () {
-            (function () {
+            expect(function () {
                 lib.handler(new CacheInterface(), {});
-            }).should.throw('Missing Required Argument [keyFunc]');
+            }).to.throw(Error, 'Missing Required Argument [keyFunc]');
         });
         it('Shouldn\'t be able to instantiate the handler without a key function', function () {
-            (function () {
+            expect(function () {
                 lib.handler(new CacheInterface(), {});
-            }).should.throw('Missing Required Argument [keyFunc]');
+            }).to.throw(Error, 'Missing Required Argument [keyFunc]');
         });
         it('Shouldn\'t be able to instantiate the handler with an invalid key function', function () {
-            (function () {
+            expect(function () {
                 lib.handler(new CacheInterface(),
                     {
                         keyFunc: 'test'
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [function] for [keyFunc] but got [string]');
+            }).to.throw(Error, 'Invalid Argument Type Expected [function] for [keyFunc] but got [string]');
         });
         it('Should instantiate the Memory handler', function () {
             var cache = lib.handler(lib.cache('mem', {}),
@@ -38,7 +38,7 @@
                     }
                 }
             );
-            cache.constructor.name.should.be.exactly('Object');
+            expect(cache).to.be.ok();
         });
         it('Should be able to instantiate the Redis handler', function () {
             var cache = lib.handler(lib.cache('redis', {
@@ -52,7 +52,7 @@
                     }
                 }
             );
-            cache.constructor.name.should.be.exactly('Object');
+            expect(cache).to.be.ok();
         });
         it('Should be able to instantiate the S3 handler', function () {
             var cache = lib.handler(lib.cache('s3', {
@@ -66,7 +66,7 @@
                     }
                 }
             );
-            cache.constructor.name.should.be.exactly('Object');
+            expect(cache).to.be.ok();
         });
         it('Should be able to save a cached value', function (done) {
             var cache = lib.handler(lib.cache('mem', {}),
@@ -85,8 +85,9 @@
                 },
                 new MockResponse(function (res) {
                     try {
-                        res.headers.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        res.statusCode.should.be.exactly(200);
+
+                        expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                        expect(res.statusCode).to.equal(200);
                         done();
                     } catch (err) {
                         done(err);
@@ -113,8 +114,8 @@
                 },
                 new MockResponse(function (res) {
                     try {
-                        res.headers.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        res.statusCode.should.be.exactly(200);
+                        expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                        expect(res.statusCode).to.equal(200);
                         done();
                     } catch (err) {
                         done(err);
@@ -149,8 +150,8 @@
                         },
                         new MockResponse(function (res) {
                             try {
-                                res.headers.etag.should.be.exactly('8d8dbf068de76b07ecd87c58f228c8dfdce138dd');
-                                res.statusCode.should.be.exactly(200);
+                                expect(res.headers.etag).to.equal('8d8dbf068de76b07ecd87c58f228c8dfdce138dd');
+                                expect(res.statusCode).to.equal(200);
                                 done();
                             } catch (err) {
                                 done(err);
@@ -177,8 +178,8 @@
                 },
                 new MockResponse(function (res) {
                     try {
-                        res.headers.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                        res.statusCode.should.be.exactly(200);
+                        expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                        expect(res.statusCode).to.equal(200);
                         done();
                     } catch (err) {
                         done(err);
@@ -204,8 +205,8 @@
                 new MockResponse(function () {
                     cache.restore({headers: {}}, new MockResponse(function (res) {
                         try {
-                            res.headers.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                            res.statusCode.should.be.exactly(200);
+                            expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                            expect(res.statusCode).to.equal(200);
                             done();
                         } catch (err) {
                             done(err);
@@ -232,8 +233,8 @@
                 new MockResponse(function () {
                     cache.restore({headers: {'if-none-match': '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'}}, new MockResponse(function (res) {
                         try {
-                            res.headers.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                            res.statusCode.should.be.exactly(304);
+                            expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                            expect(res.statusCode).to.equal(304);
                             done();
                         } catch (err) {
                             done(err);
@@ -260,8 +261,8 @@
                 new MockResponse(function () {
                     cache.restore({headers: {'if-none-match': 'test-hash'}}, new MockResponse(function (res) {
                         try {
-                            res.headers.etag.should.be.exactly('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
-                            res.statusCode.should.be.exactly(200);
+                            expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                            expect(res.statusCode).to.equal(200);
                             done();
                         } catch (err) {
                             done(err);
@@ -280,8 +281,8 @@
             );
             cache.restore({headers: {'if-none-match': 'test-hash'}}, new MockResponse(function (res) {
                 try {
-                    res.body.should.be.exactly('Cache for [test-restore-no-exist] not found');
-                    res.statusCode.should.be.exactly(404);
+                    expect(res.body).to.equal('Cache for [test-restore-no-exist] not found');
+                    expect(res.statusCode).to.equal(404);
                     done();
                 } catch (err) {
                     done(err);
@@ -306,7 +307,7 @@
                 new MockResponse(function () {
                     cache.remove({headers: {}}, new MockResponse(function (res) {
                         try {
-                            res.statusCode.should.be.exactly(204);
+                            expect(res.statusCode).to.equal(204);
                             done();
                         } catch (err) {
                             done(err);
@@ -333,7 +334,7 @@
                 new MockResponse(function () {
                     cache.remove({headers: {'if-none-match': '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'}}, new MockResponse(function (res) {
                         try {
-                            res.statusCode.should.be.exactly(204);
+                            expect(res.statusCode).to.equal(204);
                             done();
                         } catch (err) {
                             done(err);
@@ -360,8 +361,8 @@
                 new MockResponse(function () {
                     cache.remove({headers: {'if-none-match': 'incorrect-hash'}}, new MockResponse(function (res) {
                         try {
-                            res.body.should.be.exactly('Provided Hash [incorrect-hash] doesn\'t match current hash [4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0]');
-                            res.statusCode.should.be.exactly(412);
+                            expect(res.body).to.equal('Provided Hash [incorrect-hash] doesn\'t match current hash [4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0]');
+                            expect(res.statusCode).to.equal(412);
                             done();
                         } catch (err) {
                             done(err);
@@ -392,4 +393,4 @@
             cb(this);
         };
     }
-}(require('should'), require('../index'), require('../lib/cacheInterface')));
+}(require('./helper').getExpect(), require('../index'), require('../lib/cacheInterface')));
