@@ -27,7 +27,9 @@
                     redisClient.on('error', done);
                 },
                 beforeEach: function (done) {
+                    /* jshint camelcase: false */
                     redisClient.send_command('flushall', [], done);
+                    /* jshint camelcase: true */
                 },
                 createCache: function () {
                     return lib.cache('redis',
@@ -62,7 +64,7 @@
                     };
                     bucketName = 's3fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
 
-                    s3fsImpl = new require('s3fs')(s3Credentials, bucketName);
+                    s3fsImpl = require('s3fs')(s3Credentials, bucketName);
 
                     s3fsImpl.create().then(function () {
                         done();
