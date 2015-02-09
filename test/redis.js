@@ -298,7 +298,7 @@
                 cache.keys().then(function (keys) {
                     try {
                         keys.should.be.instanceof(Array).and.have.lengthOf(2);
-                        keys.should.eql(['key2', 'key1']);
+                        keys.should.eql(['key1', 'key2']);
                         done();
                     } catch (err) {
                         done(err);
@@ -548,7 +548,7 @@
                     set.keys().then(function (keys) {
                         try {
                             keys.should.be.instanceof(Array).and.have.lengthOf(2);
-                            keys.should.eql(['key2', 'key1']);
+                            keys.should.eql(['key1', 'key2']);
                             done();
                         } catch (err) {
                             done(err);

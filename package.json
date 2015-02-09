@@ -46,7 +46,8 @@
     "jssha": "1.5.0",
     "q": "^1.x",
     "redis": "^0.12.x",
-    "s3fs": "0.0.1"
+    "s3fs": "0.0.1",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "bower": "^1.x",

@@ -4,7 +4,8 @@
         bucketName,
         s3fsImpl;
     
-    describe.only('S3 Cache Implementation', function () {
+    describe('S3 Cache Implementation', function () {
+        this.timeout(5000);
         var cache;
         beforeEach(function (done) {
             s3Credentials = {
