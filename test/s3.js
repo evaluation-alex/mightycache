@@ -538,4 +538,4 @@
         });
 
     });
-}(require('should'), require('./helper').getExpect() , require('util'), require('../index'), require('../lib/errors'), require('s3fs'), require('q')));
+}(require('should'), require('./chaiPromise').expect , require('util'), require('../index'), require('../lib/errors'), require('s3fs'), require('q')));

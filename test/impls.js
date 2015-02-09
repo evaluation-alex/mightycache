@@ -217,4 +217,4 @@
             });
         });
     });
-}(require('./helper').getExpect(), require('util'), require('../index'), require('../lib/errors')));
+}(require('./chaiPromise').expect, require('util'), require('../index'), require('../lib/errors')));

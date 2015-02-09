@@ -1,7 +1,10 @@
-(function (should, expect, util, lib, errors) {
+(function (should, expect, util, lib, errors, q) {
     describe('Memory Cache Implementation', function () {
+        var cache;
+        beforeEach(function(){
+            cache = lib.cache('mem', {});
+        });
         it('Should instantiate the test cache implementation', function () {
-            var cache = lib.cache('mem', {});
             expect(cache).to.be.ok();
         });
         it('Should be able to save a cached value', function (done) {
@@ -486,4 +489,4 @@
 
 
     });
-}(require('should'), require('./helper').getExpect(), require('util'), require('../index'), require('../lib/errors')));
+}(require('should'),require('./chaiPromise').expect, require('util'), require('../index'), require('../lib/errors'), require('q')));

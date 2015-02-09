@@ -1,8 +1,9 @@
-(function (should, expect, util, lib, errors, redis) {
+(function (should, expect, util, lib, errors, redis, q) {
     "use strict";
     var redisClient;
 
     describe('Redis Cache Implementation', function () {
+        var cache;
         before(function(done) {
            redisClient = redis.createClient();
             redisClient.on('connect', done);
@@ -12,6 +13,24 @@
         beforeEach(function(done) {
             /* jshint camelcase: false */
             redisClient.send_command('flushall', [], function(err) {
+                done(err);
+            });
+            /* jshint camelcase: true */
+        });
+
+        beforeEach(function () {
+            cache = lib.cache('redis',
+                {
+                    host: 'localhost',
+                    port: 6379,
+                    options: {}
+                }
+            );
+        });
+
+        afterEach(function (done) {
+            /* jshint camelcase: false */
+            redisClient.send_command('flushall', [], function (err) {
                 done(err);
             });
             /* jshint camelcase: true */
@@ -551,4 +570,4 @@
 
         });
     });
-}(require('should'), require('./helper').getExpect() , require('util'), require('../index'), require('../lib/errors'), require('redis')));
+}(require('should'), require('./chaiPromise').expect , require('util'), require('../index'), require('../lib/errors'), require('redis'), require('q')));

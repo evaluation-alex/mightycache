@@ -14,4 +14,4 @@
             expect(errObj).to.be.an.instanceof(errors.CacheError);
         });
     });
-}(require('./helper').getExpect(), require('../lib/errors')));
+}(require('./chaiPromise').expect, require('../lib/errors')));
