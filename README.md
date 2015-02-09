@@ -203,6 +203,43 @@ cache.remove('test-key').then(function() {
 });
 ```
 
+### keys()
+    Returns a promise that resolves to an array of keys
+    ```js
+    var cache = mightyCache.cache(cacheImplName, options);
+    cache.keys().then(function(keys) {
+      // array of keys
+    }, function(reason) {
+      // Something went wrong
+    });
+    ```
+
+### set(key)
+    Creates a instance of a Set. This allows to group many items under any given key. The Set instance supports all
+    the methods of a Cache instance with the exception of set. You are not allowed to create a set form a set instance.
+
+* key `String`. **Required**. Key of the hash set
+
+```js
+    var cache = mightyCache.cache(cacheImplName, options);
+    cache.set('myNewSet')
+    .then(function(set){
+        set.save('Test Data', 'test-key').then(function(data) {
+          // Data successfully stored `data.etag` has the etag that was generated
+        }, function(reason) {
+          // Something went wrong
+        });
+    },
+    function(reason){
+        // Something went wrong
+    });
+    cache.keys().then(function(keys) {
+      // array of keys
+    }, function(reason) {
+      // Something went wrong
+    });
+```
+
 ## Testing
 This repository uses [Mocha](http://mochajs.org/) as its test runner. Tests can be run by executing the following command:
 
