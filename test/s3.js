@@ -32,6 +32,7 @@
         });
 
         afterEach(function (done) {
+            this.timeout(10000);
             s3fsImpl.destroy().then(function () {
                 done();
             }, function (reason) {
@@ -315,6 +316,7 @@
         });
 
         describe("s3 set", function(){
+            this.timeout(10000);
             var set;
             beforeEach(function (done) {
                 cache.set('mySet').then(function (mySet) {

@@ -1,32 +1,32 @@
-(function (should, lib, util) {
+(function (expect, lib, util) {
     describe('Set Interface', function () {
         it('Should receive error when accessing the un-implemented \'save\' method', function () {
-            (function() {
+            expect(function() {
                 var farceCache = new FarceCache();
                 farceCache.save();
-            }).should.throw('function save not implemented');
+            }).to.throw('function save not implemented');
         });
         it('Should receive error when accessing the un-implemented \'restore\' method', function () {
-            (function() {
+            expect(function() {
                 var farceCache = new FarceCache();
                 farceCache.restore();
-            }).should.throw('function restore not implemented');
+            }).to.throw('function restore not implemented');
         });
         it('Should receive error when accessing the un-implemented \'remove\' method', function () {
-            (function() {
+            expect(function() {
                 var farceCache = new FarceCache();
                 farceCache.remove();
-            }).should.throw('function remove not implemented');
+            }).to.throw('function remove not implemented');
         });
         it('Should receive error when accessing the un-implemented \'keys\' method', function () {
-            (function() {
+            expect(function() {
                 var farceCache = new FarceCache();
                 farceCache.keys();
-            }).should.throw('function keys not implemented');
+            }).to.throw('function keys not implemented');
         });
     });
 
     function FarceCache() {}
     util.inherits(FarceCache, lib.setInterface);
 
-}(require('should'), require('../index'), require('util')));
+}(require('./chaiPromise').expect, require('../index'), require('util')));
