@@ -1,82 +1,67 @@
-(function (should, util, lib, errors, redis, q) {
+(function (should, expect, util, lib, errors, redis) {
     "use strict";
     var redisClient;
 
     describe('Redis Cache Implementation', function () {
-        var cache;
-        before(function (done) {
-            redisClient = redis.createClient();
-            redisClient.on('connect', function () {
-                redisClient.send_command('flushall', [], function (err) {
-                    done(err);
-                });
-            });
+        before(function(done) {
+           redisClient = redis.createClient();
+            redisClient.on('connect', done);
             redisClient.on('error', done);
         });
 
-        beforeEach(function () {
-            cache = lib.cache('redis',
-                {
-                    host: 'localhost',
-                    port: 6379,
-                    options: {}
-                }
-            );
-        });
-
-        afterEach(function (done) {
+        beforeEach(function(done) {
             /* jshint camelcase: false */
-            redisClient.send_command('flushall', [], function (err) {
+            redisClient.send_command('flushall', [], function(err) {
                 done(err);
             });
             /* jshint camelcase: true */
         });
 
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a host', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis', {});
-            }).should.throw('Missing Required Argument [host]');
+            }).to.throw(Error, 'Missing Required Argument [host]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation with an invalid host', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: {}
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [string] for [host] but got [object]');
+            }).to.throw(Error, 'Invalid Argument Type Expected [string] for [host] but got [object]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a port', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test'
                     }
                 );
-            }).should.throw('Missing Required Argument [port]');
+            }).to.throw(Error, 'Missing Required Argument [port]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation with an invalid port', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test',
                         port: {}
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [number] for [port] but got [object]');
+            }).to.throw(Error, 'Invalid Argument Type Expected [number] for [port] but got [object]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation without options', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test',
                         port: 12345
                     }
                 );
-            }).should.throw('Missing Required Argument [options]');
+            }).to.throw(Error, 'Missing Required Argument [options]');
         });
         it('Shouldn\'t be able to instantiate the Redis cache implementation with invalid options', function () {
-            (function () {
+            expect(function () {
                 lib.cache('redis',
                     {
                         host: 'test',
@@ -84,10 +69,17 @@
                         options: 'asdf'
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [object] for [options] but got [string]');
+            }).to.throw(Error, 'Invalid Argument Type Expected [object] for [options] but got [string]');
         });
         it('Should instantiate the Redis cache implementation', function () {
-            cache.constructor.name.should.be.exactly('RedisCache');
+            var cache = lib.cache('redis',
+                {
+                    host: 'localhost',
+                    port: 6379,
+                    options: {}
+                }
+            );
+            expect(cache).to.be.ok();
         });
 
         it('Should be able to save a cached value', function (done) {
@@ -559,4 +551,4 @@
 
         });
     });
-}(require('should'), require('util'), require('../index'), require('../lib/errors'), require('redis'), require('q')));
+}(require('should'), require('./helper').getExpect() , require('util'), require('../index'), require('../lib/errors'), require('redis')));

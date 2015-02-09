@@ -1,4 +1,4 @@
-(function (should, util, lib, errors, S3FS, q) {
+(function (should, expect, util, lib, errors, S3FS, q) {
     "use strict";
     var s3Credentials,
         bucketName,
@@ -45,50 +45,50 @@
         });
 
         it('Shouldn\'t be able to instantiate the S3 cache implementation without a bucket', function () {
-            (function () {
+            expect(function () {
                 lib.cache('s3', {});
-            }).should.throw('Missing Required Argument [bucket]');
+            }).to.throw('Missing Required Argument [bucket]');
         });
         it('Shouldn\'t be able to instantiate the S3 cache implementation with an invalid bucket', function () {
-            (function () {
+            expect(function () {
                 lib.cache('s3',
                     {
                         bucket: {}
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [string] for [bucket] but got [object]');
+            }).to.throw('Invalid Argument Type Expected [string] for [bucket] but got [object]');
         });
         it('Shouldn\'t be able to instantiate the S3 cache implementation without an access key id', function () {
-            (function () {
+            expect(function () {
                 lib.cache('s3',
                     {
                         bucket: 'test'
                     }
                 );
-            }).should.throw('Missing Required Argument [accessKeyId]');
+            }).to.throw('Missing Required Argument [accessKeyId]');
         });
         it('Shouldn\'t be able to instantiate the S3 cache implementation with an invalid access key id', function () {
-            (function () {
+            expect(function () {
                 lib.cache('s3',
                     {
                         bucket: 'test',
                         accessKeyId: {}
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [string] for [accessKeyId] but got [object]');
+            }).to.throw('Invalid Argument Type Expected [string] for [accessKeyId] but got [object]');
         });
         it('Shouldn\'t be able to instantiate the S3 cache implementation without a secret access key', function () {
-            (function () {
+            expect(function () {
                 lib.cache('s3',
                     {
                         bucket: 'test',
                         accessKeyId: 'test'
                     }
                 );
-            }).should.throw('Missing Required Argument [secretAccessKey]');
+            }).to.throw('Missing Required Argument [secretAccessKey]');
         });
         it('Shouldn\'t be able to instantiate the S3 cache implementation with an invalid secret access key', function () {
-            (function () {
+            expect(function () {
                 lib.cache('s3',
                     {
                         bucket: 'test',
@@ -96,7 +96,7 @@
                         secretAccessKey: {}
                     }
                 );
-            }).should.throw('Invalid Argument Type Expected [string] for [secretAccessKey] but got [object]');
+            }).to.throw('Invalid Argument Type Expected [string] for [secretAccessKey] but got [object]');
         });
         it('Should instantiate the S3 cache implementation', function () {
             var cache = lib.cache('s3',
@@ -538,4 +538,4 @@
         });
 
     });
-}(require('should'), require('util'), require('../index'), require('../lib/errors'), require('s3fs'), require('q')));
+}(require('should'), require('./helper').getExpect() , require('util'), require('../index'), require('../lib/errors'), require('s3fs'), require('q')));

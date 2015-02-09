@@ -1,11 +1,8 @@
-(function (should, util, lib, errors, q) {
+(function (should, expect, util, lib, errors) {
     describe('Memory Cache Implementation', function () {
-        var cache;
-        beforeEach(function () {
-            cache = lib.cache('mem', {});
-        });
         it('Should instantiate the test cache implementation', function () {
-            cache.constructor.name.should.be.exactly('TestCache');
+            var cache = lib.cache('mem', {});
+            expect(cache).to.be.ok();
         });
         it('Should be able to save a cached value', function (done) {
             cache.save(JSON.stringify({name: 'Zul'}), 'save-test').then(function (data) {
@@ -489,4 +486,4 @@
 
 
     });
-}(require('should'), require('util'), require('../index'), require('../lib/errors'), require('q')));
+}(require('should'), require('./helper').getExpect(), require('util'), require('../index'), require('../lib/errors')));
