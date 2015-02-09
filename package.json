@@ -42,6 +42,7 @@
   ],
   "main": "index.js",
   "dependencies": {
+    "inherit-multiple": "^1.0.0",
     "jssha": "1.5.0",
     "q": "^1.x",
     "redis": "^0.12.x",
