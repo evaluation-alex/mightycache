@@ -321,7 +321,7 @@
                     return cache.save('', 'key1').then(function () {
                         return cache.save('', 'key2');
                     }).then(function () {
-                        return expect(cache.keys()).to.eventually.deep.equal(['key1', 'key2']);
+                        return expect(cache.keys()).to.eventually.include('key1').and.to.include('key2');
                     });
                 });
             });
