@@ -1,4 +1,5 @@
 (function (expect, lib, util) {
+    'use strict';
     describe('Cache Interface', function () {
         it('Should receive error when not using an impl name', function () {
             expect(function () {
@@ -45,7 +46,9 @@
         });
     });
 
-    function FarceCache() {}
+    function FarceCache() {
+    }
+
     util.inherits(FarceCache, lib.cacheInterface);
 
-}(require('./chaiPromise').expect ,require('../index'), require('util')));
+}(require('./chaiPromise').expect, require('../index'), require('util')));
