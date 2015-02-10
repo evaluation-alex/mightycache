@@ -1,6 +1,6 @@
 (function (expect, lib) {
     'use strict';
-    describe('Redis Specific Implementation', function () {
+    describe('Redis Cache Implementation', function () {
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a host', function () {
             expect(function () {
                 lib.cache('redis', {});
