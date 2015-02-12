@@ -174,7 +174,7 @@
                     done();
                 },
                 afterEach: function (done) {
-                    require('rmdir')(bucketName, function(err) {
+                    require('rmdir')(bucketName, function (err) {
                         done(err);
                     });
                 },
@@ -202,7 +202,7 @@
                     done();
                 },
                 afterEach: function (done) {
-                    require('rmdir')(bucketName, function(err) {
+                    require('rmdir')(bucketName, function (err) {
                         done(err);
                     });
                 },
