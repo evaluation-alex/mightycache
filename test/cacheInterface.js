@@ -51,4 +51,4 @@
 
     util.inherits(FarceCache, lib.cacheInterface);
 
-}(require('./helper').getExpect(), require('../index'), require('util')));
+}(require('./chaiPromise').expect, require('../index'), require('util')));

@@ -203,6 +203,40 @@ cache.remove('test-key').then(function() {
 });
 ```
 
+### keys()
+Returns an array of all of the saved keys in the cache or within the cache set (if called on a Set).
+
+```js
+var cache = mightyCache.cache(cacheImplName, options);
+cache.keys().then(function(keys) {
+    // array of keys
+}, function(reason) {
+    // Something went wrong
+});
+```
+
+### set(key)
+Creates an instance of a Set. This allows grouping many items under any given key. The Set instance supports all
+the methods of a Cache instance with the exception of set. You are not allowed to create a set form a set instance. Multiple
+sets can be created for each cache, if the same set key is requested a new one will not be create but it will be retrieve
+a cached set.
+
+* key `String`. **Required**. Key of the hash set
+
+```js
+var cache = mightyCache.cache(cacheImplName, options);
+cache.set('myNewSet').then(function (cacheSet) {
+        cacheSet.save('Test Data', 'test-key').then(function (data) {
+            // Data successfully stored `data.etag` has the etag that was generated
+        }, function (reason) {
+            // Something went wrong
+        });
+    },
+    function (reason) {
+        // Something went wrong
+    });
+```
+
 ## Testing
 This repository uses [Mocha](http://mochajs.org/) as its test runner. Tests can be run by executing the following command:
 
@@ -223,10 +257,10 @@ This will report the Code Coverage to the console similar to the following:
 
 ```bash
 =============================== Coverage summary ===============================
-Statements   : 78.07% ( 356/456 )
-Branches     : 50.23% ( 107/213 )
-Functions    : 74.77% ( 83/111 )
-Lines        : 78.07% ( 356/456 )
+Statements   : 83.05% ( 397/478 )
+Branches     : 77.84% ( 130/167 )
+Functions    : 84.85% ( 112/132 )
+Lines        : 83.05% ( 397/478 )
 ================================================================================
 ```
 

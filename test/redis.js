@@ -1,6 +1,6 @@
 (function (expect, lib) {
     'use strict';
-    describe('Redis Implementation Specific Tests', function () {
+    describe('Redis Cache Implementation', function () {
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a host', function () {
             expect(function () {
                 lib.cache('redis', {});
@@ -65,15 +65,6 @@
             );
             expect(cache).to.be.ok();
         });
-        it('Redis cache implementation should inherit from the EventEmitter', function () {
-            var cache = lib.cache('redis',
-                {
-                    host: 'localhost',
-                    port: 6379,
-                    options: {}
-                }
-            );
-            expect(cache).to.be.an.instanceOf(require('events').EventEmitter);
-        });
+
     });
-}(require('./helper').getExpect(), require('../index')));
+}(require('./chaiPromise').expect, require('../index')));

@@ -393,4 +393,4 @@
             cb(this);
         };
     }
-}(require('./helper').getExpect(), require('../index'), require('../lib/cacheInterface')));
+}(require('./chaiPromise').expect, require('../index'), require('../lib/cacheInterface')));

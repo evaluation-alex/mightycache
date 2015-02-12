@@ -1,9 +1,8 @@
 (function (expect, lib) {
     'use strict';
-    describe('Memory Implementation Specific Tests', function () {
+    describe('Memory Specific Implementation', function () {
         it('Should instantiate the test cache implementation', function () {
-            var cache = lib.cache('mem', {});
-            expect(cache).to.be.ok();
+            expect(lib.cache('mem', {})).to.be.ok();
         });
     });
-}(require('./helper').getExpect(), require('../index')));
+}(require('./chaiPromise').expect, require('../index')));
