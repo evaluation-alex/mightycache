@@ -66,6 +66,26 @@
                         }
                     ));
                 }
+            },
+            {
+                name: 'File System Set',
+                beforeEach: function (done) {
+                    bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
+                    done();
+                },
+                afterEach: function (done) {
+                    require('rmdir')(bucketName, function(err) {
+                        done(err);
+                    });
+                },
+                createCache: function () {
+                    return Q.when(lib.cache('fs',
+                        {
+                            path: bucketName,
+                            fs: require('fs')
+                        }
+                    ));
+                }
             }
         ];
 

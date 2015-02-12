@@ -95,11 +95,6 @@
             },
             {
                 name: 'S3',
-                before: function (done) {
-                    redisClient = require('redis').createClient();
-                    redisClient.on('connect', done);
-                    redisClient.on('error', done);
-                },
                 beforeEach: function (done) {
                     s3Credentials = {
                         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -137,11 +132,6 @@
             },
             {
                 name: 'S3 Set',
-                before: function (done) {
-                    redisClient = require('redis').createClient();
-                    redisClient.on('connect', done);
-                    redisClient.on('error', done);
-                },
                 beforeEach: function (done) {
                     s3Credentials = {
                         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -176,6 +166,62 @@
                     name: 'Odoyle Rules!'
                 },
                 dataToUpdateHash: 'd9b4bc4b39054b07b6f2512abcdad03f'
+            },
+            {
+                name: 'File System',
+                beforeEach: function (done) {
+                    bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
+                    done();
+                },
+                afterEach: function (done) {
+                    require('rmdir')(bucketName, function(err) {
+                        done(err);
+                    });
+                },
+                createCache: function () {
+                    return Q.when(lib.cache('fs',
+                        {
+                            path: bucketName,
+                            fs: require('fs')
+                        }
+                    ));
+                },
+                dataToSave: {
+                    name: 'Zul'
+                },
+                dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
+                dataToUpdate: {
+                    name: 'Odoyle Rules!'
+                },
+                dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
+            },
+            {
+                name: 'File System Set',
+                beforeEach: function (done) {
+                    bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
+                    done();
+                },
+                afterEach: function (done) {
+                    require('rmdir')(bucketName, function(err) {
+                        done(err);
+                    });
+                },
+                createCache: function () {
+                    return lib.cache('fs',
+                        {
+                            path: bucketName,
+                            fs: require('fs')
+                        }
+                    ).set('test');
+                },
+                dataToSave: {
+                    name: 'Zul'
+                },
+                dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
+                dataToUpdate: {
+                    name: 'Odoyle Rules!'
+                },
+                dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
             }
         ];
 
