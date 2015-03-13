@@ -371,6 +371,15 @@
                     });
                 });
             });
+            it('Should return true if a key exists', function(){
+               return testConfig.createCache().then(function(cache){
+                  return cache.save('','key1').then(function(){
+                      return cache.exists('key1').then(function(exists){
+                         expect(exists).to.be.true;
+                      });
+                  });
+               });
+            });
         });
     });
 }(require('./chaiPromise').expect, require('util'), require('q'), require('../index'), require('../lib/errors')));
