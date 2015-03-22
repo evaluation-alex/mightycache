@@ -471,6 +471,6 @@
         };
         this.end = function() {
             cb(this);
-        }
+        };
     }
 }(require('./chaiPromise').expect, require('../index'), require('../lib/cacheInterface')));
