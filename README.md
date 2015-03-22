@@ -237,6 +237,19 @@ cache.set('myNewSet').then(function (cacheSet) {
     });
 ```
 
+### exists(key)
+Test if a key exists in the cache store.
+
+* key `String`. **Required**. Key of the hash set
+
+```js
+var cache = cacheModule.cache(cacheImplName, options);
+cache.exists(key).then(function(exists){
+    true if the item exists
+})
+```
+
+
 ## Testing
 This repository uses [Mocha](http://mochajs.org/) as its test runner. Tests can be run by executing the following command:
 
