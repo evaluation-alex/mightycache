@@ -371,21 +371,21 @@
                     });
                 });
             });
-            it('Should be able to tell when a key doesn\'t exist', function() {
-                return testConfig.createCache().then(function(cache){
-                    return cache.exists('key1').then(function(exists){
+            it('Should be able to tell when a key doesn\'t exist', function () {
+                return testConfig.createCache().then(function (cache) {
+                    return cache.exists('key1').then(function (exists) {
                         expect(exists).to.equal(false);
                     });
                 });
             });
-            it('Should return true if a key exists', function(){
-               return testConfig.createCache().then(function(cache){
-                  return cache.save('','key1').then(function(){
-                      return cache.exists('key1').then(function(exists){
-                         expect(exists).to.equal(true);
-                      });
-                  });
-               });
+            it('Should return true if a key exists', function () {
+                return testConfig.createCache().then(function (cache) {
+                    return cache.save('', 'key1').then(function () {
+                        return cache.exists('key1').then(function (exists) {
+                            expect(exists).to.equal(true);
+                        });
+                    });
+                });
             });
         });
     });
