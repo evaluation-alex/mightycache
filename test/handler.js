@@ -469,7 +469,7 @@
             this.body = value;
             cb(this);
         };
-        this.end = function() {
+        this.end = function () {
             cb(this);
         };
     }
