@@ -63,8 +63,8 @@
     "mocha": "^2.x",
     "nsp": "^1.x",
     "rmdir": "^1.x",
-    "should": "^4.x",
-    "reporter-file": "^0.x"
+    "should": "^5.x",
+    "reporter-file": "^1.x"
   },
   "scripts": {
     "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/ && jshint --show-non-errors . && jscs . && buddy ./lib ./test index.js && nsp audit-package",
