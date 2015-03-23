@@ -35,7 +35,7 @@
             setClass = require(setModule);
         }
         catch (err) {
-            console.warn('Implementation [%s] does not provide a set class. Set Functionality is not required but is recommended', impl);
+            console.warn('Unable to load Set class for Implementation [%s]. Set Functionality is not required but is recommended.', impl, err);
         }
 
         try {

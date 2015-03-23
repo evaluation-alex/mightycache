@@ -1,4 +1,4 @@
-(function (expect, Q, lib) {
+(function (expect, Promise, lib) {
     'use strict';
     describe('Set Specific Tests', function () {
         var redisClient,
@@ -9,7 +9,7 @@
                 {
                     name: 'Memory Set',
                     createCache: function () {
-                        return Q.when(lib.cache('mem', {}));
+                        return Promise.resolve(lib.cache('mem', {}));
                     }
                 },
                 {
@@ -25,7 +25,7 @@
                         /* jshint camelcase: true */
                     },
                     createCache: function () {
-                        return Q.when(lib.cache('redis',
+                        return Promise.resolve(lib.cache('redis',
                             {
                                 host: 'localhost',
                                 port: 6379,
@@ -54,7 +54,7 @@
                         s3fsImpl.destroy().then(done, done);
                     },
                     createCache: function () {
-                        return Q.when(lib.cache('s3',
+                        return Promise.resolve(lib.cache('s3',
                             {
                                 bucket: bucketName,
                                 accessKeyId: s3Credentials.accessKeyId,
@@ -70,12 +70,10 @@
                         done();
                     },
                     afterEach: function (done) {
-                        require('rmdir')(bucketName, function (err) {
-                            done(err);
-                        });
+                        require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName).then(done, done);
                     },
                     createCache: function () {
-                        return Q.when(lib.cache('fs',
+                        return Promise.resolve(lib.cache('fs',
                             {
                                 path: bucketName,
                                 fs: require('fs')
@@ -139,4 +137,4 @@
             });
         });
     });
-}(require('./chaiPromise').expect, require('q'), require('../index')));
+}(require('./chaiPromise').expect, require('bluebird'), require('../index')));
