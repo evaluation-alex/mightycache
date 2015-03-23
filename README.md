@@ -44,6 +44,7 @@ var handler = mightyCache.handler(cacheImpl, {
 });
 
 app.route('/cache/:username')
+   .head(handler.head)
    .get(handler.restore)
    .post(handler.save)
    .delete(handler.remove);
@@ -157,7 +158,21 @@ As this is meant solely for testing purposes it currently has no required parame
 ## Cache Implementation
 Every implementation **must** implement the following methods:
 
-### restore(key, [ifNewerHash])
+### head(key[, ifNewerHash])
+Retrieves the cached metadata for the provided key.
+
+* key `String`. **Required**. Identifies the item to retrieve the metadata for
+
+```js
+var cache = mightyCache.cache(cacheImplName, options);
+cache.restore('test-key').then(function(data) {
+  // Metadata successfully retrieved, `data.etag` has the hash of the currently cached value
+}, function(reason) {
+  // Something went wrong
+});
+```
+
+### restore(key[, ifNewerHash])
 Restores the cached data for the provided key.
 
 * key `String`. **Required**. Identifies the data being retrieved
@@ -172,7 +187,7 @@ cache.restore('test-key').then(function(data) {
 });
 ```
 
-### save(dataToBeCached, key, [hashToReplace])
+### save(dataToBeCached, key[, hashToReplace])
 Stores the data for the provided key.
 
 * dataToBeCached `String`. **Required**. The data to be stored
@@ -188,7 +203,7 @@ cache.save('Test Data', 'test-key').then(function(data) {
 });
 ```
 
-### remove(key, [hashToDelete])
+### remove(key[, hashToDelete])
 Deletes the cached data for the provided key.
 
 * key `String`. **Required**. Identifies the data being deleted
@@ -215,13 +230,13 @@ cache.keys().then(function(keys) {
 });
 ```
 
-### set(key)
+### set(name)
 Creates an instance of a Set. This allows grouping many items under any given key. The Set instance supports all
 the methods of a Cache instance with the exception of set. You are not allowed to create a set form a set instance. Multiple
 sets can be created for each cache, if the same set key is requested a new one will not be create but it will be retrieve
 a cached set.
 
-* key `String`. **Required**. Key of the hash set
+* name `String`. **Required**. Name of the hash set
 
 ```js
 var cache = mightyCache.cache(cacheImplName, options);

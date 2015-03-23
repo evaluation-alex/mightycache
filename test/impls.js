@@ -388,6 +388,20 @@
                         });
                     });
                 });
+                it('Should be able to head a cached value', function () {
+                    return testConfig.createCache().then(function (cache) {
+                        return cache.save(JSON.stringify(testConfig.dataToSave), 'head-test').then(function (data) {
+                            return expect(cache.head('head-test')).to.eventually.deep.equal({
+                                etag: data.etag
+                            });
+                        });
+                    });
+                });
+                it('Shouldn\'t head an object if a value doesn\'t exist', function () {
+                    return testConfig.createCache().then(function (cache) {
+                        return expect(cache.head('doesnt-exist')).to.eventually.be.rejectedWith(errors.CacheError, util.format(errors.errorCodes.CACHE_NOT_FOUND.message, 'doesnt-exist'));
+                    });
+                });
             });
         });
     });

@@ -85,7 +85,6 @@
                 },
                 new MockResponse(function (res) {
                     try {
-
                         expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
                         expect(res.statusCode).to.equal(200);
                         done();
@@ -205,6 +204,9 @@
                 new MockResponse(function () {
                     cache.restore({headers: {}}, new MockResponse(function (res) {
                         try {
+                            expect(res.body).to.equal(JSON.stringify({
+                                name: 'Zul'
+                            }));
                             expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
                             expect(res.statusCode).to.equal(200);
                             done();
@@ -280,6 +282,81 @@
                 }
             );
             cache.restore({headers: {'if-none-match': 'test-hash'}}, new MockResponse(function (res) {
+                try {
+                    expect(res.body).to.equal('Cache for [test-restore-no-exist] not found');
+                    expect(res.statusCode).to.equal(404);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            }));
+        });
+
+        it('Should be able to head a cached value', function (done) {
+            var cache = lib.handler(lib.cache('mem', {}),
+                {
+                    keyFunc: function () {
+                        return 'test';
+                    }
+                }
+            );
+            cache.save(
+                {
+                    body: {
+                        name: 'Zul'
+                    },
+                    headers: {}
+                },
+                new MockResponse(function () {
+                    cache.head({headers: {}}, new MockResponse(function (res) {
+                        try {
+                            expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                            expect(res.statusCode).to.equal(200);
+                            done();
+                        } catch (err) {
+                            done(err);
+                        }
+                    }));
+                })
+            );
+        });
+        it('Should be able to head a cached value for the same version', function (done) {
+            var cache = lib.handler(lib.cache('mem', {}),
+                {
+                    keyFunc: function () {
+                        return 'test';
+                    }
+                }
+            );
+            cache.save(
+                {
+                    body: {
+                        name: 'Zul'
+                    },
+                    headers: {}
+                },
+                new MockResponse(function () {
+                    cache.head({headers: {'if-none-match': '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0'}}, new MockResponse(function (res) {
+                        try {
+                            expect(res.headers.etag).to.equal('4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0');
+                            expect(res.statusCode).to.equal(304);
+                            done();
+                        } catch (err) {
+                            done(err);
+                        }
+                    }));
+                })
+            );
+        });
+        it('Shouldn\'t head if a value doesn\'t exist', function (done) {
+            var cache = lib.handler(lib.cache('mem', {}),
+                {
+                    keyFunc: function () {
+                        return 'test-restore-no-exist';
+                    }
+                }
+            );
+            cache.head({headers: {}}, new MockResponse(function (res) {
                 try {
                     expect(res.body).to.equal('Cache for [test-restore-no-exist] not found');
                     expect(res.statusCode).to.equal(404);
@@ -390,6 +467,9 @@
         };
         this.send = function (value) {
             this.body = value;
+            cb(this);
+        };
+        this.end = function () {
             cb(this);
         };
     }
