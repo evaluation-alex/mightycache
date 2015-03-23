@@ -45,7 +45,6 @@
     "bluebird": "^2.x",
     "fs-wishlist": "^1.x",
     "inherit-multiple": "^1.x",
-    "jssha": "^1.x",
     "redis": "^0.x",
     "s3fs": "^1.x",
     "uuid": "^2.x"
