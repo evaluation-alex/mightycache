@@ -11,6 +11,8 @@
 
 Module providing multiple implementations of a cache backed by a data store.
 
+**Lead Maintainer**: [David Pate](https://github.com/DavidTPate)
+
 ## Purpose
 Mighty Cache is meant to provide an easy to use interface for caching backed by any number of data stores through 
 implementations.
