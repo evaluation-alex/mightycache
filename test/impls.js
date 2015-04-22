@@ -37,14 +37,14 @@
                 {
                     name: 'Redis',
                     before: function () {
-                        return new Promise(function(resolve, reject) {
+                        return new Promise(function (resolve, reject) {
                             redisClient = require('redis').createClient();
                             redisClient.on('connect', resolve);
                             redisClient.on('error', reject);
                         });
                     },
                     beforeEach: function () {
-                        return new Promise(function(resolve) {
+                        return new Promise(function (resolve) {
                             /* jshint camelcase: false */
                             redisClient.send_command('flushall', [], resolve);
                             /* jshint camelcase: true */
@@ -71,14 +71,14 @@
                 {
                     name: 'Redis Set',
                     before: function () {
-                        return new Promise(function(resolve, reject) {
+                        return new Promise(function (resolve, reject) {
                             redisClient = require('redis').createClient();
                             redisClient.on('connect', resolve);
                             redisClient.on('error', reject);
                         });
                     },
                     beforeEach: function () {
-                        return new Promise(function(resolve) {
+                        return new Promise(function (resolve) {
                             /* jshint camelcase: false */
                             redisClient.send_command('flushall', [], resolve);
                             /* jshint camelcase: true */
@@ -90,6 +90,56 @@
                                 host: 'localhost',
                                 port: 6379,
                                 options: {}
+                            }
+                        ).set('test');
+                    },
+                    dataToSave: {
+                        name: 'Zul'
+                    },
+                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
+                    dataToUpdate: {
+                        name: 'Odoyle Rules!'
+                    },
+                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
+                },
+                {
+                    name: 'File System',
+                    beforeEach: function () {
+                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
+                    },
+                    afterEach: function () {
+                        return require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName);
+                    },
+                    createCache: function () {
+                        return Promise.resolve(lib.cache('fs',
+                            {
+                                path: bucketName,
+                                fs: require('fs')
+                            }
+                        ));
+                    },
+                    dataToSave: {
+                        name: 'Zul'
+                    },
+                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
+                    dataToUpdate: {
+                        name: 'Odoyle Rules!'
+                    },
+                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
+                },
+                {
+                    name: 'File System Set',
+                    beforeEach: function () {
+                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
+                    },
+                    afterEach: function () {
+                        return require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName);
+                    },
+                    createCache: function () {
+                        return lib.cache('fs',
+                            {
+                                path: bucketName,
+                                fs: require('fs')
                             }
                         ).set('test');
                     },
@@ -171,56 +221,6 @@
                         name: 'Odoyle Rules!'
                     },
                     dataToUpdateHash: 'd9b4bc4b39054b07b6f2512abcdad03f'
-                },
-                {
-                    name: 'File System',
-                    beforeEach: function () {
-                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
-                    },
-                    afterEach: function () {
-                        return require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName);
-                    },
-                    createCache: function () {
-                        return Promise.resolve(lib.cache('fs',
-                            {
-                                path: bucketName,
-                                fs: require('fs')
-                            }
-                        ));
-                    },
-                    dataToSave: {
-                        name: 'Zul'
-                    },
-                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
-                    dataToUpdate: {
-                        name: 'Odoyle Rules!'
-                    },
-                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
-                },
-                {
-                    name: 'File System Set',
-                    beforeEach: function () {
-                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
-                    },
-                    afterEach: function () {
-                        return require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName);
-                    },
-                    createCache: function () {
-                        return lib.cache('fs',
-                            {
-                                path: bucketName,
-                                fs: require('fs')
-                            }
-                        ).set('test');
-                    },
-                    dataToSave: {
-                        name: 'Zul'
-                    },
-                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
-                    dataToUpdate: {
-                        name: 'Odoyle Rules!'
-                    },
-                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
                 }
             ];
 

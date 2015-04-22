@@ -15,14 +15,14 @@
                 {
                     name: 'Redis Set',
                     before: function () {
-                        return new Promise(function(resolve, reject) {
+                        return new Promise(function (resolve, reject) {
                             redisClient = require('redis').createClient();
                             redisClient.on('connect', resolve);
                             redisClient.on('error', reject);
                         });
                     },
                     beforeEach: function () {
-                        return new Promise(function(resolve) {
+                        return new Promise(function (resolve) {
                             /* jshint camelcase: false */
                             redisClient.send_command('flushall', [], resolve);
                             /* jshint camelcase: true */
