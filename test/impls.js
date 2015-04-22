@@ -36,15 +36,19 @@
                 },
                 {
                     name: 'Redis',
-                    before: function (done) {
-                        redisClient = require('redis').createClient();
-                        redisClient.on('connect', done);
-                        redisClient.on('error', done);
+                    before: function () {
+                        return new Promise(function (resolve, reject) {
+                            redisClient = require('redis').createClient();
+                            redisClient.on('connect', resolve);
+                            redisClient.on('error', reject);
+                        });
                     },
-                    beforeEach: function (done) {
-                        /* jshint camelcase: false */
-                        redisClient.send_command('flushall', [], done);
-                        /* jshint camelcase: true */
+                    beforeEach: function () {
+                        return new Promise(function (resolve) {
+                            /* jshint camelcase: false */
+                            redisClient.send_command('flushall', [], resolve);
+                            /* jshint camelcase: true */
+                        });
                     },
                     createCache: function () {
                         return Promise.resolve(lib.cache('redis',
@@ -66,15 +70,19 @@
                 },
                 {
                     name: 'Redis Set',
-                    before: function (done) {
-                        redisClient = require('redis').createClient();
-                        redisClient.on('connect', done);
-                        redisClient.on('error', done);
+                    before: function () {
+                        return new Promise(function (resolve, reject) {
+                            redisClient = require('redis').createClient();
+                            redisClient.on('connect', resolve);
+                            redisClient.on('error', reject);
+                        });
                     },
-                    beforeEach: function (done) {
-                        /* jshint camelcase: false */
-                        redisClient.send_command('flushall', [], done);
-                        /* jshint camelcase: true */
+                    beforeEach: function () {
+                        return new Promise(function (resolve) {
+                            /* jshint camelcase: false */
+                            redisClient.send_command('flushall', [], resolve);
+                            /* jshint camelcase: true */
+                        });
                     },
                     createCache: function () {
                         return lib.cache('redis',
@@ -95,8 +103,58 @@
                     dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
                 },
                 {
+                    name: 'File System',
+                    beforeEach: function () {
+                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
+                    },
+                    afterEach: function () {
+                        return require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName);
+                    },
+                    createCache: function () {
+                        return Promise.resolve(lib.cache('fs',
+                            {
+                                path: bucketName,
+                                fs: require('fs')
+                            }
+                        ));
+                    },
+                    dataToSave: {
+                        name: 'Zul'
+                    },
+                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
+                    dataToUpdate: {
+                        name: 'Odoyle Rules!'
+                    },
+                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
+                },
+                {
+                    name: 'File System Set',
+                    beforeEach: function () {
+                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
+                    },
+                    afterEach: function () {
+                        return require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName);
+                    },
+                    createCache: function () {
+                        return lib.cache('fs',
+                            {
+                                path: bucketName,
+                                fs: require('fs')
+                            }
+                        ).set('test');
+                    },
+                    dataToSave: {
+                        name: 'Zul'
+                    },
+                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
+                    dataToUpdate: {
+                        name: 'Odoyle Rules!'
+                    },
+                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
+                },
+                {
                     name: 'S3',
-                    before: function (done) {
+                    before: function () {
                         s3Credentials = {
                             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                             secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -104,14 +162,12 @@
                         };
                         bucketName = 'mightycache-s3-test-bucket-' + (Math.random() + '').slice(2, 8);
 
-                        s3fsImpl = require('s3fs')(s3Credentials, bucketName);
+                        s3fsImpl = require('s3fs')(bucketName, s3Credentials);
 
-                        s3fsImpl.create().then(function () {
-                            done();
-                        }, done);
+                        return s3fsImpl.create();
                     },
-                    after: function (done) {
-                        s3fsImpl.destroy().then(done, done);
+                    after: function () {
+                        return s3fsImpl.destroy();
                     },
                     createCache: function () {
                         return Promise.resolve(lib.cache('s3',
@@ -133,7 +189,7 @@
                 },
                 {
                     name: 'S3 Set',
-                    before: function (done) {
+                    before: function () {
                         s3Credentials = {
                             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                             secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -141,14 +197,12 @@
                         };
                         bucketName = 'mightycache-s3-set-test-bucket-' + (Math.random() + '').slice(2, 8);
 
-                        s3fsImpl = require('s3fs')(s3Credentials, bucketName);
+                        s3fsImpl = require('s3fs')(bucketName, s3Credentials);
 
-                        s3fsImpl.create().then(function () {
-                            done();
-                        }, done);
+                        return s3fsImpl.create();
                     },
-                    after: function (done) {
-                        s3fsImpl.destroy().then(done, done);
+                    after: function () {
+                        return s3fsImpl.destroy();
                     },
                     createCache: function () {
                         return lib.cache('s3',
@@ -167,89 +221,29 @@
                         name: 'Odoyle Rules!'
                     },
                     dataToUpdateHash: 'd9b4bc4b39054b07b6f2512abcdad03f'
-                },
-                {
-                    name: 'File System',
-                    beforeEach: function (done) {
-                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
-                        done();
-                    },
-                    afterEach: function (done) {
-                        require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName).then(done, done);
-                    },
-                    createCache: function () {
-                        return Promise.resolve(lib.cache('fs',
-                            {
-                                path: bucketName,
-                                fs: require('fs')
-                            }
-                        ));
-                    },
-                    dataToSave: {
-                        name: 'Zul'
-                    },
-                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
-                    dataToUpdate: {
-                        name: 'Odoyle Rules!'
-                    },
-                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
-                },
-                {
-                    name: 'File System Set',
-                    beforeEach: function (done) {
-                        bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
-                        done();
-                    },
-                    afterEach: function (done) {
-                        require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName).then(done, done);
-                    },
-                    createCache: function () {
-                        return lib.cache('fs',
-                            {
-                                path: bucketName,
-                                fs: require('fs')
-                            }
-                        ).set('test');
-                    },
-                    dataToSave: {
-                        name: 'Zul'
-                    },
-                    dataToSaveHash: '4cdbc5ffe38a19ec2fd3c1625f92c14e2e0b4ec0',
-                    dataToUpdate: {
-                        name: 'Odoyle Rules!'
-                    },
-                    dataToUpdateHash: '8d8dbf068de76b07ecd87c58f228c8dfdce138dd'
                 }
             ];
 
         cachesToTest.forEach(function (testConfig) {
             describe(testConfig.name + ' Implementation', function () {
-                before(function (done) {
+                before(function () {
                     if (testConfig.before) {
-                        testConfig.before(done);
-                    } else {
-                        done();
+                        return testConfig.before();
                     }
                 });
-                beforeEach(function (done) {
+                beforeEach(function () {
                     if (testConfig.beforeEach) {
-                        testConfig.beforeEach(done);
-                    } else {
-                        done();
+                        return testConfig.beforeEach();
                     }
                 });
-                after(function (done) {
+                after(function () {
                     if (testConfig.after) {
-                        testConfig.after(done);
-                    } else {
-                        done();
+                        return testConfig.after();
                     }
                 });
-                afterEach(function (done) {
+                afterEach(function () {
                     if (testConfig.afterEach) {
-                        testConfig.afterEach(done);
-                    } else {
-                        done();
+                        return testConfig.afterEach();
                     }
                 });
                 it('Should instantiate the test cache implementation', function () {

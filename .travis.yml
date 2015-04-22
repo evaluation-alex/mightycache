@@ -1,9 +1,9 @@
 language: node_js
 sudo: false
 node_js:
-- 0.10.31
 - '0.10'
 - '0.11'
+- '0.12'
 env:
   global:
   - secure: Ua3Js0aFlkkdJvODwYqpHR1aKZJt7/WI/v3JBQyZW0SlhS2645WiTeZ1HuVSznr8Fu2R4rqI1YCt0/GKQ9q3ZzIJqS8B7Y9Z7BsYOx/mZ8ztk1szYH489T0z0IkFPdacJ832rntZM+1AAxrnc2pAX4qeLF5EkQ+4hofd26E2PIk=

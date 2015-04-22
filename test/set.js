@@ -14,15 +14,19 @@
                 },
                 {
                     name: 'Redis Set',
-                    before: function (done) {
-                        redisClient = require('redis').createClient();
-                        redisClient.on('connect', done);
-                        redisClient.on('error', done);
+                    before: function () {
+                        return new Promise(function (resolve, reject) {
+                            redisClient = require('redis').createClient();
+                            redisClient.on('connect', resolve);
+                            redisClient.on('error', reject);
+                        });
                     },
-                    beforeEach: function (done) {
-                        /* jshint camelcase: false */
-                        redisClient.send_command('flushall', [], done);
-                        /* jshint camelcase: true */
+                    beforeEach: function () {
+                        return new Promise(function (resolve) {
+                            /* jshint camelcase: false */
+                            redisClient.send_command('flushall', [], resolve);
+                            /* jshint camelcase: true */
+                        });
                     },
                     createCache: function () {
                         return Promise.resolve(lib.cache('redis',
@@ -36,7 +40,7 @@
                 },
                 {
                     name: 'S3 Set',
-                    before: function (done) {
+                    before: function () {
                         s3Credentials = {
                             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                             secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -44,14 +48,12 @@
                         };
                         bucketName = 'mightycache-s3-setImpl-test-bucket-' + (Math.random() + '').slice(2, 8);
 
-                        s3fsImpl = require('s3fs')(s3Credentials, bucketName);
+                        s3fsImpl = require('s3fs')(bucketName, s3Credentials);
 
-                        s3fsImpl.create().then(function () {
-                            done();
-                        }, done);
+                        return s3fsImpl.create();
                     },
-                    after: function (done) {
-                        s3fsImpl.destroy().then(done, done);
+                    after: function () {
+                        return s3fsImpl.destroy();
                     },
                     createCache: function () {
                         return Promise.resolve(lib.cache('s3',
@@ -65,12 +67,11 @@
                 },
                 {
                     name: 'File System Set',
-                    beforeEach: function (done) {
+                    beforeEach: function () {
                         bucketName = 'fs-cache-test-bucket-' + (Math.random() + '').slice(2, 8);
-                        done();
                     },
-                    afterEach: function (done) {
-                        require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName).then(done, done);
+                    afterEach: function () {
+                        return require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName);
                     },
                     createCache: function () {
                         return Promise.resolve(lib.cache('fs',
@@ -85,32 +86,24 @@
 
         cachesToTest.forEach(function (testConfig) {
             describe(testConfig.name + ' Specific Implementation', function () {
-                before(function (done) {
+                before(function () {
                     if (testConfig.before) {
-                        testConfig.before(done);
-                    } else {
-                        done();
+                        return testConfig.before();
                     }
                 });
-                beforeEach(function (done) {
+                beforeEach(function () {
                     if (testConfig.beforeEach) {
-                        testConfig.beforeEach(done);
-                    } else {
-                        done();
+                        return testConfig.beforeEach();
                     }
                 });
-                after(function (done) {
+                after(function () {
                     if (testConfig.after) {
-                        testConfig.after(done);
-                    } else {
-                        done();
+                        return testConfig.after();
                     }
                 });
-                afterEach(function (done) {
+                afterEach(function () {
                     if (testConfig.afterEach) {
-                        testConfig.afterEach(done);
-                    } else {
-                        done();
+                        return testConfig.afterEach();
                     }
                 });
                 it('Should be able to retrieve the same cache set', function () {
