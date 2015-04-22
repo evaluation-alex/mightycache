@@ -42,11 +42,9 @@
   ],
   "main": "index.js",
   "dependencies": {
-    "cb-q": "^0.x",
+    "bluebird": "^2.x",
+    "fs-wishlist": "^1.x",
     "inherit-multiple": "^1.x",
-    "jssha": "^1.x",
-    "mkdirp": "^0.x",
-    "q": "^1.x",
     "redis": "^0.x",
     "s3fs": "^1.x",
     "uuid": "^2.x"
@@ -62,7 +60,6 @@
     "jsinspect": "^0.x",
     "mocha": "^2.x",
     "nsp": "^1.x",
-    "rmdir": "^1.x",
     "should": "^5.x",
     "reporter-file": "^1.x"
   },

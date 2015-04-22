@@ -1,4 +1,4 @@
-(function (expect, util, Q, lib, errors) {
+(function (expect, util, Promise, lib, errors) {
     'use strict';
     describe('Implementation Tests', function () {
         var redisClient,
@@ -9,7 +9,7 @@
                 {
                     name: 'Memory',
                     createCache: function () {
-                        return Q.when(lib.cache('mem', {}));
+                        return Promise.resolve(lib.cache('mem', {}));
                     },
                     dataToSave: {
                         name: 'Zul'
@@ -47,7 +47,7 @@
                         /* jshint camelcase: true */
                     },
                     createCache: function () {
-                        return Q.when(lib.cache('redis',
+                        return Promise.resolve(lib.cache('redis',
                             {
                                 host: 'localhost',
                                 port: 6379,
@@ -114,7 +114,7 @@
                         s3fsImpl.destroy().then(done, done);
                     },
                     createCache: function () {
-                        return Q.when(lib.cache('s3',
+                        return Promise.resolve(lib.cache('s3',
                             {
                                 bucket: bucketName,
                                 accessKeyId: s3Credentials.accessKeyId,
@@ -175,12 +175,10 @@
                         done();
                     },
                     afterEach: function (done) {
-                        require('rmdir')(bucketName, function (err) {
-                            done(err);
-                        });
+                        require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName).then(done, done);
                     },
                     createCache: function () {
-                        return Q.when(lib.cache('fs',
+                        return Promise.resolve(lib.cache('fs',
                             {
                                 path: bucketName,
                                 fs: require('fs')
@@ -203,9 +201,7 @@
                         done();
                     },
                     afterEach: function (done) {
-                        require('rmdir')(bucketName, function (err) {
-                            done(err);
-                        });
+                        require('fs-wishlist').mixin(require('fs')).rmdirp(bucketName).then(done, done);
                     },
                     createCache: function () {
                         return lib.cache('fs',
@@ -405,4 +401,4 @@
             });
         });
     });
-}(require('./chaiPromise').expect, require('util'), require('q'), require('../index'), require('../lib/errors')));
+}(require('./chaiPromise').expect, require('util'), require('bluebird'), require('../index'), require('../lib/errors')));
