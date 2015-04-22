@@ -44,7 +44,7 @@
                         };
                         bucketName = 'mightycache-s3-setImpl-test-bucket-' + (Math.random() + '').slice(2, 8);
 
-                        s3fsImpl = require('s3fs')(s3Credentials, bucketName);
+                        s3fsImpl = require('s3fs')(bucketName, s3Credentials);
 
                         s3fsImpl.create().then(function () {
                             done();
