@@ -4,13 +4,13 @@ node_js:
 - '0.10'
 - '0.11'
 - '0.12'
-- 'iojs'
+- iojs
 env:
   global:
-  - secure: Ua3Js0aFlkkdJvODwYqpHR1aKZJt7/WI/v3JBQyZW0SlhS2645WiTeZ1HuVSznr8Fu2R4rqI1YCt0/GKQ9q3ZzIJqS8B7Y9Z7BsYOx/mZ8ztk1szYH489T0z0IkFPdacJ832rntZM+1AAxrnc2pAX4qeLF5EkQ+4hofd26E2PIk=
-  - secure: UvLTfuT2JOhv5MpjODNE23GZLb6npMck8eKphq0PSr9d71ehC42nadIL5FCbakKvQKlHJ/hxKykraQqAuBypFWc1rmPacv22YC5yKrel7zUMZIipGz/+ABpGu6utvX7wr5cMyH8vlxyqWJdE1uqswpGEWdTO/lBYECaZ7PTlwno=
-  - secure: SNsdjtWd5mNDNkbLs4kLl+XNtgbTLrXpz54n0Cr5Qfvu9XOirP1Nqd1OJi+o6D0IpsJSHru4V4l8qx+zNKrzCWb2EqceXQHn57k/QfYozRxZS7scOgz8KIT2XDZvO1FayMm4LtfHv/YpC5NGcGVPSvj+n5e/TFmYkh9mt5BqKJg=
+  - secure: J+ahu8EtsOzhGFGWbe8oBPgRQCNTSy6uVk/zxi8c84+N5HBtLr3GC+YR5ZS2h0Ux2E53x7sWum10di8Ixr6EhuqSEjDmJGiZFW6oHTsXrMhT8X6RgHT+cPJnJwTLjlBZFA3JgT8Qyh1J3fcy3PiZjOMfyi+vt8Eihnw799QfuzE=
+  - secure: KdN40eA1ExI0w09S9lMPfdqN98bXTBIr4jIr1kzZloQLuy6iLuBqvUKbOxvg6pu4hnxaKiSijve1cez1+KHCHC6rdTfVf62A4Q6pQUKwEAb42KtQZ4WHf7E0RA2i/5d+gUGqSNx+kR42o2blnYASZLrQkFem8cY5ENNbztLFEKE=
 script: npm test
-after_script: npm run-script inspect && npm install coveralls && cat ./coverage/lcov.info | coveralls
+after_script: npm run-script inspect && npm install coveralls && cat ./coverage/lcov.info
+  | coveralls
 services:
 - redis-server
