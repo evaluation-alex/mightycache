@@ -178,6 +178,62 @@
                 {
                     name: 'S3',
                     before: function () {
+                        bucketName = 'mightycache-s3-test-bucket-' + (Math.random() + '').slice(2, 8);
+
+                        s3fsImpl = require('s3fs')(bucketName);
+
+                        return s3fsImpl.create();
+                    },
+                    after: function () {
+                        return s3fsImpl.destroy();
+                    },
+                    createCache: function () {
+                        return Promise.resolve(lib.cache('s3',
+                            {
+                                bucket: bucketName
+                            }
+                        ));
+                    },
+                    dataToSave: {
+                        name: 'Zul'
+                    },
+                    dataToSaveHash: '5bf48f033197ecd3635f459c145b0815',
+                    dataToUpdate: {
+                        name: 'Odoyle Rules!'
+                    },
+                    dataToUpdateHash: 'd9b4bc4b39054b07b6f2512abcdad03f'
+                },
+                {
+                    name: 'S3 Set',
+                    before: function () {
+                        bucketName = 'mightycache-s3-set-test-bucket-' + (Math.random() + '').slice(2, 8);
+
+                        s3fsImpl = require('s3fs')(bucketName);
+
+                        return s3fsImpl.create();
+                    },
+                    after: function () {
+                        return s3fsImpl.destroy();
+                    },
+                    createCache: function () {
+                        return lib.cache('s3',
+                            {
+                                bucket: bucketName
+                            }
+                        ).set('test');
+                    },
+                    dataToSave: {
+                        name: 'Zul'
+                    },
+                    dataToSaveHash: '5bf48f033197ecd3635f459c145b0815',
+                    dataToUpdate: {
+                        name: 'Odoyle Rules!'
+                    },
+                    dataToUpdateHash: 'd9b4bc4b39054b07b6f2512abcdad03f'
+                },
+                {
+                    name: 'S3 Hardcoded Credentials',
+                    before: function () {
                         s3Credentials = {
                             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                             secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -211,7 +267,7 @@
                     dataToUpdateHash: 'd9b4bc4b39054b07b6f2512abcdad03f'
                 },
                 {
-                    name: 'S3 Set',
+                    name: 'S3 Set Hardcoded Credentials',
                     before: function () {
                         s3Credentials = {
                             accessKeyId: process.env.AWS_ACCESS_KEY_ID,

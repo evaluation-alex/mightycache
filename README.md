@@ -131,9 +131,7 @@ The S3 implementation uses the [module](https://www.npmjs.com/package/s3fs) modu
 var mightyCache = require('mightycache');
 var cache = mightyCache.cache('s3',
     {
-        bucket: 'test-bucket',
-        accessKeyId: 'Access Key Id Goes Here',
-        secretAccessKey: 'Secret Access Key Goes Here'
+        bucket: 'test-bucket'
     }
 );
 ```
@@ -142,8 +140,8 @@ var cache = mightyCache.cache('s3',
 Name | Type | Description
 ---------|--------|----------------
 `bucket`|`string`|**Required**. Bucket to be used to store cache data in. This can include both the bucket and a path. (Ex. `test-bucket/cache/data`)
-`accessKeyId`|`string`|**Required**. Access Key Id to be used to connect to S3.
-`secretAccessKey`|`string`|**Required**. Secret Access Key corresponding to the provided Access Key Id to allow authentication to access S3.
+`accessKeyId`|`string`|**Optional**. Access Key Id to be used to connect to S3. The AWS SDK can [pull in variables dynamically](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
+`secretAccessKey`|`string`|**Optional**. Secret Access Key corresponding to the provided Access Key Id to allow authentication to access S3. The AWS SDK can [pull in variables dynamically](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
 
 ### Memory
 The in-memory implementation which is meant for testing purposes only as it is not mature, therefore it is **not production ready**
