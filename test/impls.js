@@ -28,6 +28,8 @@
             s3fsImpl,
             s3Credentials,
             bucketName,
+            originalAccessKeyId,
+            originalSecretAccessKey,
             cachesToTest = [
                 {
                     name: 'Memory',
@@ -234,18 +236,25 @@
                 {
                     name: 'S3 Hardcoded Credentials',
                     before: function () {
+                        originalAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
+                        process.env.AWS_ACCESS_KEY_ID = '';
+                        originalSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+                        process.env.AWS_SECRET_ACCESS_KEY = '';
                         s3Credentials = {
-                            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                            secretAccessKey: process.env.AWS_SECRET_KEY,
+                            accessKeyId: originalAccessKeyId,
+                            secretAccessKey: originalSecretAccessKey,
                             region: process.env.AWS_REGION
                         };
                         bucketName = 'mightycache-s3-test-bucket-' + (Math.random() + '').slice(2, 8);
 
+                        delete require.cache['aws-sdk'];
                         s3fsImpl = require('s3fs')(bucketName, s3Credentials);
 
                         return s3fsImpl.create();
                     },
                     after: function () {
+                        process.env.AWS_ACCESS_KEY_ID = originalAccessKeyId;
+                        process.env.AWS_SECRET_ACCESS_KEY = originalSecretAccessKey;
                         return s3fsImpl.destroy();
                     },
                     createCache: function () {
@@ -269,18 +278,25 @@
                 {
                     name: 'S3 Set Hardcoded Credentials',
                     before: function () {
+                        originalAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
+                        process.env.AWS_ACCESS_KEY_ID = '';
+                        originalSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+                        process.env.AWS_SECRET_ACCESS_KEY = '';
                         s3Credentials = {
-                            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                            secretAccessKey: process.env.AWS_SECRET_KEY,
+                            accessKeyId: originalAccessKeyId,
+                            secretAccessKey: originalSecretAccessKey,
                             region: process.env.AWS_REGION
                         };
                         bucketName = 'mightycache-s3-set-test-bucket-' + (Math.random() + '').slice(2, 8);
 
+                        delete require.cache['aws-sdk'];
                         s3fsImpl = require('s3fs')(bucketName, s3Credentials);
 
                         return s3fsImpl.create();
                     },
                     after: function () {
+                        process.env.AWS_ACCESS_KEY_ID = originalAccessKeyId;
+                        process.env.AWS_SECRET_ACCESS_KEY = originalSecretAccessKey;
                         return s3fsImpl.destroy();
                     },
                     createCache: function () {
