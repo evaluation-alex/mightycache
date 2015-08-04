@@ -73,7 +73,10 @@
                         return s3fsImpl.destroy();
                     },
                     createCache: function () {
-                        return Promise.resolve(lib.cache('s3'));
+                        return Promise.resolve(lib.cache('s3',
+                            {
+                                bucket: bucketName
+                            }));
                     }
                 },
                 {
