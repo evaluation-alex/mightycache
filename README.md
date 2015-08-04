@@ -1,13 +1,13 @@
 # Mighty Cache
 [![npm](https://img.shields.io/npm/v/mightycache.svg)](https://www.npmjs.com/package/mightycache)
 [![npm](https://img.shields.io/npm/dm/mightycache.svg)](https://www.npmjs.com/package/mightycache)
-[![Build Status](https://travis-ci.org/RiptideCloud/mightycache.svg?branch=master)](https://travis-ci.org/RiptideCloud/mightycache)
-[![Coverage Status](https://img.shields.io/coveralls/RiptideCloud/mightycache.svg)](https://coveralls.io/r/RiptideCloud/mightycache)
+[![Build Status](https://travis-ci.org/RiptideElements/mightycache.svg?branch=master)](https://travis-ci.org/RiptideElements/mightycache)
+[![Coverage Status](https://img.shields.io/coveralls/RiptideElements/mightycache.svg)](https://coveralls.io/r/RiptideElements/mightycache)
 [![Codacy](https://img.shields.io/codacy/e15e6fda7ab3418e8d5573ad32f97a8b.svg)](https://www.codacy.com/public/davidtpate/mightycache)
-[![Code Climate](https://codeclimate.com/github/RiptideCloud/mightycache/badges/gpa.svg)](https://codeclimate.com/github/RiptideCloud/mightycache)
-[![David](https://img.shields.io/david/RiptideCloud/mightycache.svg)](https://david-dm.org/RiptideCloud/mightycache)
-[![David](https://img.shields.io/david/dev/RiptideCloud/mightycache.svg)](https://david-dm.org/RiptideCloud/mightycache)
-[![David](https://img.shields.io/david/peer/RiptideCloud/mightycache.svg)](https://david-dm.org/RiptideCloud/mightycache)
+[![Code Climate](https://codeclimate.com/github/RiptideElements/mightycache/badges/gpa.svg)](https://codeclimate.com/github/RiptideElements/mightycache)
+[![David](https://img.shields.io/david/RiptideElements/mightycache.svg)](https://david-dm.org/RiptideElements/mightycache)
+[![David](https://img.shields.io/david/dev/RiptideElements/mightycache.svg)](https://david-dm.org/RiptideElements/mightycache)
+[![David](https://img.shields.io/david/peer/RiptideElements/mightycache.svg)](https://david-dm.org/RiptideElements/mightycache)
 
 Module providing multiple implementations of a cache backed by a data store.
 
