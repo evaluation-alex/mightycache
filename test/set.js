@@ -26,7 +26,6 @@
     describe('Set Specific Tests', function () {
         var redisClient,
             s3fsImpl,
-            s3Credentials,
             bucketName,
             cachesToTest = [
                 {
@@ -64,14 +63,9 @@
                 {
                     name: 'S3 Set',
                     before: function () {
-                        s3Credentials = {
-                            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                            secretAccessKey: process.env.AWS_SECRET_KEY,
-                            region: process.env.AWS_REGION
-                        };
                         bucketName = 'mightycache-s3-setImpl-test-bucket-' + (Math.random() + '').slice(2, 8);
 
-                        s3fsImpl = require('s3fs')(bucketName, s3Credentials);
+                        s3fsImpl = require('s3fs')(bucketName);
 
                         return s3fsImpl.create();
                     },
@@ -81,11 +75,8 @@
                     createCache: function () {
                         return Promise.resolve(lib.cache('s3',
                             {
-                                bucket: bucketName,
-                                accessKeyId: s3Credentials.accessKeyId,
-                                secretAccessKey: s3Credentials.secretAccessKey
-                            }
-                        ));
+                                bucket: bucketName
+                            }));
                     }
                 },
                 {

@@ -1,6 +1,6 @@
 {
   "name": "mightycache",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Module providing multiple implementations of a cache backed by a data store.",
   "keywords": [
     "cache",
@@ -10,13 +10,13 @@
     "simple storage service",
     "amazon s3"
   ],
-  "homepage": "http://github.com/RiptideCloud/mightycache",
+  "homepage": "http://github.com/RiptideElements/mightycache",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RiptideCloud/mightycache"
+    "url": "https://github.com/RiptideElements/mightycache"
   },
   "bugs": {
-    "url": "https://github.com/RiptideCloud/mightycache/issues"
+    "url": "https://github.com/RiptideElements/mightycache/issues"
   },
   "author": {
     "name": "David Pate",
@@ -34,12 +34,7 @@
       "url": "https://github.com/Jhorlin"
     }
   ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/MIT"
-    }
-  ],
+  "license": "MIT",
   "main": "index.js",
   "dependencies": {
     "bluebird": "^2.x",
