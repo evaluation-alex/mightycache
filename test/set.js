@@ -127,6 +127,13 @@
                         });
                     });
                 });
+                it('Should be able to list keys for an empty set', function () {
+                    return testConfig.createCache().then(function (cache) {
+                        return cache.set('cacheSetRestore').then(function (keySet) {
+                            return keySet.keys();
+                        });
+                    });
+                });
                 it('Should be able to destroy a cache set', function () {
                     return testConfig.createCache().then(function (cache) {
                         return expect(cache.set('cacheSetDestroy')).to.eventually.be.fulfilled();
