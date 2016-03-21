@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (expect, util, Promise, lib, errors) {
-    'use strict';
     describe('Implementation Tests', function () {
         var redisClient,
             s3fsImpl,

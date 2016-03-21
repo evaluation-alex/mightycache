@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (expect, lib) {
-    'use strict';
     describe('Memory Specific Implementation', function () {
         it('Should instantiate the test cache implementation', function () {
             expect(lib.cache('mem', {})).to.be.ok();

@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (expect, lib, util) {
-    'use strict';
     describe('Cache Interface', function () {
         it('Should receive error when not using an impl name', function () {
             expect(function () {

@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (expect, lib, CacheInterface) {
-    'use strict';
     describe('Handler Implementation', function () {
         it('Shouldn\'t be able to instantiate the a handler without a handler', function () {
             expect(function () {
