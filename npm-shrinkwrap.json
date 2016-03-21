@@ -1,0 +1,100 @@
+{
+  "name": "mightycache",
+  "version": "3.3.2",
+  "dependencies": {
+    "bluebird": {
+      "version": "3.3.4",
+      "from": "bluebird@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.3.4.tgz"
+    },
+    "double-ended-queue": {
+      "version": "2.1.0-0",
+      "from": "double-ended-queue@>=2.1.0-0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz"
+    },
+    "extend": {
+      "version": "2.0.1",
+      "from": "extend@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/extend/-/extend-2.0.1.tgz"
+    },
+    "fs-wishlist": {
+      "version": "1.1.2",
+      "from": "fs-wishlist@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/fs-wishlist/-/fs-wishlist-1.1.2.tgz",
+      "dependencies": {
+        "bluebird": {
+          "version": "3.2.1",
+          "from": "bluebird@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.2.1.tgz"
+        },
+        "extend": {
+          "version": "3.0.0",
+          "from": "extend@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.0.tgz"
+        }
+      }
+    },
+    "inherit-multiple": {
+      "version": "1.0.1",
+      "from": "inherit-multiple@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/inherit-multiple/-/inherit-multiple-1.0.1.tgz"
+    },
+    "redis": {
+      "version": "2.5.3",
+      "from": "redis@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/redis/-/redis-2.5.3.tgz"
+    },
+    "redis-commands": {
+      "version": "1.1.0",
+      "from": "redis-commands@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/redis-commands/-/redis-commands-1.1.0.tgz"
+    },
+    "redis-parser": {
+      "version": "1.1.0",
+      "from": "redis-parser@>=1.1.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/redis-parser/-/redis-parser-1.1.0.tgz"
+    },
+    "s3fs": {
+      "version": "2.4.4",
+      "from": "s3fs@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/s3fs/-/s3fs-2.4.4.tgz",
+      "dependencies": {
+        "aws-sdk": {
+          "version": "2.2.33",
+          "from": "aws-sdk@>=2.0.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.2.33.tgz"
+        },
+        "bluebird": {
+          "version": "3.2.1",
+          "from": "bluebird@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.2.1.tgz"
+        },
+        "extend": {
+          "version": "3.0.0",
+          "from": "extend@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.0.tgz"
+        },
+        "sax": {
+          "version": "0.5.3",
+          "from": "sax@0.5.3",
+          "resolved": "https://registry.npmjs.org/sax/-/sax-0.5.3.tgz"
+        },
+        "xml2js": {
+          "version": "0.2.8",
+          "from": "xml2js@0.2.8",
+          "resolved": "https://registry.npmjs.org/xml2js/-/xml2js-0.2.8.tgz"
+        },
+        "xmlbuilder": {
+          "version": "0.4.2",
+          "from": "xmlbuilder@0.4.2",
+          "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-0.4.2.tgz"
+        }
+      }
+    },
+    "uuid": {
+      "version": "2.0.1",
+      "from": "uuid@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/uuid/-/uuid-2.0.1.tgz"
+    }
+  }
+}

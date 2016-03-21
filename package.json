@@ -1,6 +1,6 @@
 {
   "name": "mightycache",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "Module providing multiple implementations of a cache backed by a data store.",
   "keywords": [
     "cache",
