@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (expect, errors) {
-    'use strict';
     describe('Errors Implementation', function () {
         it('Should be able to instantiate an error without the \'new\' keyword', function () {
             var err = errors.errorCodes.HASH_MISMATCH,

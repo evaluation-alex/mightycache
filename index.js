@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (module, util, handler, cacheInterface, setInterface) {
-    'use strict';
     module.exports.cacheInterface = cacheInterface;
     module.exports.setInterface = setInterface;
 
@@ -58,7 +58,7 @@
             setClass = require(setModule);
         }
         catch (err) {
-            console.warn('Unable to load Set class for Implementation [%s]. Set Functionality is not required but is recommended.', impl, err);
+            console.warn('Unable to load Set class for Implementation [%s]. Set Functionality is not required but is recommended.', impl, err); // eslint-disable-line no-console
         }
 
         try {
@@ -66,7 +66,8 @@
             if (setClass) {
                 cacheClass.Set = setClass;
             }
-        } catch (err) {
+        }
+        catch (err) {
             if (err && err.code === 'MODULE_NOT_FOUND' && err.message === 'Cannot find module \'' + cacheModule + '\'') {
                 throw new Error(util.format('Implementation [%s] does not exist', impl));
             }

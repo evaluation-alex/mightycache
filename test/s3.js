@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (expect, lib) {
-    'use strict';
     describe('S3 Specific Implementation', function () {
         it('Shouldn\'t be able to instantiate the S3 cache implementation without a bucket', function () {
             expect(function () {
