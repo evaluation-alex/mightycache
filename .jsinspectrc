@@ -1,8 +1,7 @@
 {
-  "threshold": 30,
+  "threshold": 40,
   "identifiers": true,
   "diff": true,
   "color": true,
-  "ignore": "node_modules|coverage|reports",
-  "reporter": "json"
+  "ignore": "node_modules|coverage|test"
 }

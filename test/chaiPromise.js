@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (require, chai) {
-    'use strict';
     chai.use(require('chai-as-promised'));
     chai.use(require('dirty-chai'));
     chai.config.includeStack = true;

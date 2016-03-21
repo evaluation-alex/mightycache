@@ -1,3 +1,4 @@
+'use strict';
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +23,6 @@
  * SOFTWARE.
  */
 (function (expect, lib) {
-    'use strict';
     describe('Redis Cache Implementation', function () {
         it('Shouldn\'t be able to instantiate the Redis cache implementation without a host', function () {
             expect(function () {
