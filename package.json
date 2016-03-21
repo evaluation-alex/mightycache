@@ -38,7 +38,7 @@
   "main": "index.js",
   "dependencies": {
     "bluebird": "^2.x",
-    "fs-wishlist": "^1.x",
+    "fs-wishlist": "^1.1.3",
     "inherit-multiple": "^1.x",
     "redis": "^0.x",
     "s3fs": "^2.x",
