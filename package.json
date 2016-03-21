@@ -59,7 +59,7 @@
   "scripts": {
     "lint": "eslint . && jscs . && jsinspect . || echo 'TODO: Re-enable once less duplicated code' && buddy --detect-objects index.js ./lib",
     "security": "nsp check",
-    "cover": "istanbul cover _mocha -- --check-leaks --bail --timeout=25000 test && istanbul check-coverage --statements 85 --branches 75 --functions 85 --lines 85",
+    "cover": "istanbul cover _mocha -- --check-leaks --bail --timeout=25000 test && istanbul check-coverage --statements 85 --branches 75 --functions 84 --lines 85",
     "test": "mocha --check-leaks --timeout=25000 test",
     "test-ci": "npm run lint && npm run security && npm run cover"
   }
