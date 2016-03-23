@@ -41,7 +41,7 @@
     "fs-wishlist": "^1.x",
     "inherit-multiple": "^1.x",
     "redis": "^2.x",
-    "s3fs": "^2.x",
+    "s3fs": "^2.4.5",
     "uuid": "^2.x"
   },
   "devDependencies": {
