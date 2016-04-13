@@ -48,7 +48,7 @@
     "buddy.js": "^0.x",
     "chai": "^3.x",
     "chai-as-promised": "^5.x",
-    "dirty-chai": "^1.x",
+    "dirty-chai": "^1.2.2",
     "eslint": "^2.7.0",
     "istanbul": "^0.4.3",
     "jscs": "^2.x",
