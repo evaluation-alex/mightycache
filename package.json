@@ -49,7 +49,7 @@
     "chai": "^3.x",
     "chai-as-promised": "^5.x",
     "dirty-chai": "^1.2.2",
-    "eslint": "^2.8.0",
+    "eslint": "^2.9.0",
     "istanbul": "^0.4.3",
     "jscs": "^3.0.2",
     "jsinspect": "^0.x",
