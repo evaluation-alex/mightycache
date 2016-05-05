@@ -54,7 +54,7 @@
     "jscs": "^3.0.2",
     "jsinspect": "^0.x",
     "mocha": "^2.x",
-    "nsp": "^2.3.2"
+    "nsp": "^2.4.0"
   },
   "scripts": {
     "lint": "eslint . && jscs . && jsinspect . || echo 'TODO: Re-enable once less duplicated code' && buddy --detect-objects index.js ./lib",
