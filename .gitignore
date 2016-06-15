@@ -35,3 +35,6 @@ node_modules
 
 # Koala Less Compiler
 koala-config.json
+
+# vscode
+.vscode

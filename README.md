@@ -264,6 +264,15 @@ cache.exists(key).then(function(exists){
 })
 ```
 
+### clear()
+Removes all items from the cache store.
+
+```js
+var cache = cacheModule.cache(cacheImplName, options);
+cache.clear().then(function(){
+    resolved if successful
+})
+```
 
 ## Testing
 This repository uses [Mocha](http://mochajs.org/) as its test runner. Tests can be run by executing the following command:

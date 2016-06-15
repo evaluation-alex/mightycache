@@ -134,6 +134,29 @@
                         });
                     });
                 });
+                it('Should be able to clear all items from a set', function () {
+                    return testConfig.createCache()
+                        .then(function (cache) {
+                            return Promise.all([
+                                cache.set('set1'),
+                                cache.set('set2')
+                            ]);
+                        })
+                        .map(function (set) {
+                            return set.save('data', 'key1')
+                                .return(set);
+                        })
+                        .spread(function (firstSet, secondSet) {
+                            return Promise.all([
+                                firstSet.clear().then(function () { return firstSet.keys(); }),
+                                secondSet
+                            ]);
+                        })
+                        .spread(function (keys, secondSet) {
+                            expect(keys).to.have.lengthOf(0);
+                            return expect(secondSet.restore('key1')).to.eventually.be.fulfilled;
+                        });
+                });
                 it('Should be able to destroy a cache set', function () {
                     return testConfig.createCache().then(function (cache) {
                         return expect(cache.set('cacheSetDestroy')).to.eventually.be.fulfilled();
@@ -151,4 +174,4 @@
             });
         });
     });
-}(require('./chaiPromise').expect, require('bluebird'), require('../index')));
+} (require('./chaiPromise').expect, require('bluebird'), require('../index')));

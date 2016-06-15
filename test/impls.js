@@ -487,6 +487,21 @@
                         return expect(cache.head('doesnt-exist')).to.eventually.be.rejectedWith(errors.CacheError, util.format(errors.errorCodes.CACHE_NOT_FOUND.message, 'doesnt-exist'));
                     });
                 });
+                it('Should be able to clear all cached values', function () {
+                    return testConfig.createCache()
+                        .then(function (cache) {
+                            return Promise.all([
+                                cache.save(JSON.stringify(testConfig.dataToSave), 'value1'),
+                                cache.save(JSON.stringify(testConfig.dataToSave), 'value2')
+                            ])
+                            .then(function () {
+                                return cache.clear();
+                            })
+                            .then(function () {
+                                return expect(cache.keys()).to.eventually.have.lengthOf(0);
+                            });
+                        });
+                });
             });
         });
     });
