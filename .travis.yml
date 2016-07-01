@@ -11,6 +11,9 @@ env:
   global:
   - secure: Xq3V6Z3To37vTsWHZwlrAaY7aA1MLLYQeDxJieBw66Go3HKvIvhldtlWADJ4+9bwMfIvT2J8KTTYfFzDlRm4G/jBBXBbMRSXQF28irPtWJMZwI8o2r7zqngSgTfZBGjUzjnhM9vTuEtPIp3FYVghlWtHvXGbzwmHsUL01YO7ywc=
   - secure: amA4fuVSfEcHA299LeruL9Nl9TjZ9hzcdxqVOUjVvHw2rZV3DGH/+lhs86OWfFTYOMl1eu/cmB8cb4G1t/MyL+yOCeKZtWQ/lOVBi2JC/VvaHXBSBr1JXFb74fXFE93TPG8iz+eYzct0845hEZV8aeWGq9eLfpzEDcpQ0dAtOuA=
+cache:
+  directories:
+  - node_modules
 script: npm run test-ci
 after_script: npm install coveralls && cat ./coverage/lcov.info | coveralls
 services:
