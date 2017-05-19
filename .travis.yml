@@ -7,6 +7,8 @@ node_js:
 - iojs
 - '4'
 - '5'
+- '6'
+- '7'
 env:
   global:
   - secure: Xq3V6Z3To37vTsWHZwlrAaY7aA1MLLYQeDxJieBw66Go3HKvIvhldtlWADJ4+9bwMfIvT2J8KTTYfFzDlRm4G/jBBXBbMRSXQF28irPtWJMZwI8o2r7zqngSgTfZBGjUzjnhM9vTuEtPIp3FYVghlWtHvXGbzwmHsUL01YO7ywc=
