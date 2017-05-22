@@ -1,11 +1,21 @@
 {
   "name": "mightycache",
-  "version": "3.4.3",
+  "version": "3.4.4",
   "dependencies": {
     "bluebird": {
-      "version": "3.4.1",
-      "from": "bluebird@>=3.4.1 <4.0.0",
-      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.4.1.tgz"
+      "version": "3.5.0",
+      "from": "bluebird@>=3.4.6 <4.0.0",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.5.0.tgz"
+    },
+    "double-ended-queue": {
+      "version": "2.1.0-0",
+      "from": "double-ended-queue@>=2.1.0-0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz"
+    },
+    "extend": {
+      "version": "2.0.1",
+      "from": "extend@>=2.0.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/extend/-/extend-2.0.1.tgz"
     },
     "fs-wishlist": {
       "version": "1.1.3",
@@ -14,12 +24,12 @@
       "dependencies": {
         "bluebird": {
           "version": "3.3.4",
-          "from": "https://registry.npmjs.org/bluebird/-/bluebird-3.3.4.tgz",
+          "from": "bluebird@>=3.0.0 <4.0.0",
           "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.3.4.tgz"
         },
         "extend": {
           "version": "3.0.0",
-          "from": "https://registry.npmjs.org/extend/-/extend-3.0.0.tgz",
+          "from": "extend@>=3.0.0 <4.0.0",
           "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.0.tgz"
         }
       }
@@ -27,88 +37,74 @@
     "inherit-multiple": {
       "version": "1.0.1",
       "from": "inherit-multiple@>=1.0.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/inherit-multiple/-/inherit-multiple-1.0.1.tgz",
-      "dependencies": {
-        "extend": {
-          "version": "2.0.1",
-          "from": "extend@>=2.0.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/extend/-/extend-2.0.1.tgz"
-        }
-      }
+      "resolved": "https://registry.npmjs.org/inherit-multiple/-/inherit-multiple-1.0.1.tgz"
     },
     "redis": {
-      "version": "2.6.2",
+      "version": "2.7.1",
       "from": "redis@>=2.6.2 <3.0.0",
-      "resolved": "https://registry.npmjs.org/redis/-/redis-2.6.2.tgz",
-      "dependencies": {
-        "double-ended-queue": {
-          "version": "2.1.0-0",
-          "from": "double-ended-queue@>=2.1.0-0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz"
-        },
-        "redis-commands": {
-          "version": "1.2.0",
-          "from": "redis-commands@>=1.2.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/redis-commands/-/redis-commands-1.2.0.tgz"
-        },
-        "redis-parser": {
-          "version": "2.0.3",
-          "from": "redis-parser@>=2.0.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/redis-parser/-/redis-parser-2.0.3.tgz"
-        }
-      }
+      "resolved": "https://registry.npmjs.org/redis/-/redis-2.7.1.tgz"
+    },
+    "redis-commands": {
+      "version": "1.3.1",
+      "from": "redis-commands@>=1.2.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/redis-commands/-/redis-commands-1.3.1.tgz"
+    },
+    "redis-parser": {
+      "version": "2.6.0",
+      "from": "redis-parser@>=2.5.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/redis-parser/-/redis-parser-2.6.0.tgz"
     },
     "s3fs": {
-      "version": "2.4.7",
-      "from": "s3fs@>=2.4.7 <3.0.0",
-      "resolved": "https://registry.npmjs.org/s3fs/-/s3fs-2.4.7.tgz",
+      "version": "2.5.0",
+      "from": "s3fs@>=2.5.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/s3fs/-/s3fs-2.5.0.tgz",
       "dependencies": {
         "aws-sdk": {
-          "version": "2.3.11",
-          "from": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.3.11.tgz",
-          "resolved": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.3.11.tgz"
+          "version": "2.5.2",
+          "from": "aws-sdk@>=2.5.2 <2.6.0",
+          "resolved": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.5.2.tgz"
         },
         "bluebird": {
-          "version": "3.3.5",
-          "from": "https://registry.npmjs.org/bluebird/-/bluebird-3.3.5.tgz",
-          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.3.5.tgz"
+          "version": "3.4.1",
+          "from": "bluebird@>=3.4.1 <3.5.0",
+          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.4.1.tgz"
         },
         "extend": {
           "version": "3.0.0",
-          "from": "https://registry.npmjs.org/extend/-/extend-3.0.0.tgz",
+          "from": "extend@>=3.0.0 <4.0.0",
           "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.0.tgz"
         },
         "jmespath": {
           "version": "0.15.0",
-          "from": "https://registry.npmjs.org/jmespath/-/jmespath-0.15.0.tgz",
+          "from": "jmespath@0.15.0",
           "resolved": "https://registry.npmjs.org/jmespath/-/jmespath-0.15.0.tgz"
         },
         "lodash": {
           "version": "3.5.0",
-          "from": "https://registry.npmjs.org/lodash/-/lodash-3.5.0.tgz",
+          "from": "lodash@>=3.5.0 <3.6.0",
           "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.5.0.tgz"
         },
         "sax": {
           "version": "1.1.5",
-          "from": "https://registry.npmjs.org/sax/-/sax-1.1.5.tgz",
+          "from": "sax@1.1.5",
           "resolved": "https://registry.npmjs.org/sax/-/sax-1.1.5.tgz"
         },
         "xml2js": {
           "version": "0.4.15",
-          "from": "https://registry.npmjs.org/xml2js/-/xml2js-0.4.15.tgz",
+          "from": "xml2js@0.4.15",
           "resolved": "https://registry.npmjs.org/xml2js/-/xml2js-0.4.15.tgz"
         },
         "xmlbuilder": {
           "version": "2.6.2",
-          "from": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-2.6.2.tgz",
+          "from": "xmlbuilder@2.6.2",
           "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-2.6.2.tgz"
         }
       }
     },
     "uuid": {
-      "version": "2.0.2",
-      "from": "uuid@>=2.0.2 <3.0.0",
-      "resolved": "https://registry.npmjs.org/uuid/-/uuid-2.0.2.tgz"
+      "version": "2.0.3",
+      "from": "uuid@>=2.0.3 <3.0.0",
+      "resolved": "https://registry.npmjs.org/uuid/-/uuid-2.0.3.tgz"
     }
   }
 }
